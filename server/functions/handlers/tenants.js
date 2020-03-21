@@ -33,7 +33,7 @@ exports.validate = (method) => {
             ]
         }
     }
-    return true;
+    return [];
 };
 
 

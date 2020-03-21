@@ -53,7 +53,7 @@ exports.validate = (method) => {
             ]
         }
     }
-    return true;
+    return [];
 };
 
 exports.getAllBills = (request, response) => {
