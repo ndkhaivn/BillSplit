@@ -6,11 +6,14 @@ const moment = require('moment');
 
 const reduceTenantDetails = (data) => {
     let tenantDetails = {
-        name: data.name.trim(),
-        stays: {
-            moveIn: moment(data.stays.moveIn, config.display_date_format).format(config.store_date_format),
-            moveOut: moment(data.stays.moveOut, config.display_date_format).format(config.store_date_format)
-        }
+        tenantName: data.tenantName.trim(),
+        stays: data.stays.map(stay => {
+            return {
+                fromDate: moment(stay.fromDate, config.display_date_format).format(config.store_date_format),
+                toDate: moment(stay.toDate, config.display_date_format).format(config.store_date_format)
+            }
+        })
+
     };
     return tenantDetails;
 };
@@ -20,15 +23,16 @@ exports.validate = (method) => {
         case 'addTenant':
         case 'editTenant': {
             return [
-                check('name').notEmpty().withMessage('Tenant name must not be empty')
-                    .isAlphanumeric().withMessage('Must be a valid name'),
+                check('tenantName').notEmpty().withMessage('Tenant name must not be empty')
+                    .matches(/^[a-zA-Z0-9 ]+$/i).withMessage('Must be a valid name'),
                 check('stays').custom(stays => {
-
-                    if (!moment(stays.moveIn, config.display_date_format, true).isValid()) {
-                        throw new Error(`Date format not valid. Expect ${config.display_date_format}`);
-                    }
-                    if (!moment(stays.moveOut, config.display_date_format, true).isValid()) {
-                        throw new Error(`Date format not valid. Expect ${config.display_date_format}`);
+                    for (let stay of stays) {
+                        if (!moment(stay.fromDate, config.display_date_format, true).isValid()) {
+                            throw new Error(`Date format not valid. Expect ${config.display_date_format}`);
+                        }
+                        if (!moment(stay.toDate, config.display_date_format, true).isValid()) {
+                            throw new Error(`Date format not valid. Expect ${config.display_date_format}`);
+                        }
                     }
                     return true;
                 })
@@ -46,7 +50,7 @@ exports.getAllTenants = (request, response) => {
             data.forEach((doc) => {
                 tenants.push({
                     tenantId: doc.id,
-                    name: doc.data().name,
+                    tenantName: doc.data().tenantName,
                     stays: doc.data().stays,
                 });
             });
