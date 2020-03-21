@@ -116,7 +116,7 @@ exports.editTenant = (request, response) => {
     db.doc(`/tenants/${request.params.tenantId}`)
         .update(reduceTenantDetails(request.body))
         .then((doc) => {
-            return response.json({ message: `document ${doc.id} updated successfully` });
+            return response.json({ message: `document updated successfully` });
         })
         .catch((err) => {
             response.status(500).json({ error: `could not edit tenant` });
