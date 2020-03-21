@@ -53,6 +53,7 @@ exports.validate = (method) => {
             ]
         }
     }
+    return true;
 };
 
 exports.getAllBills = (request, response) => {
@@ -154,7 +155,7 @@ exports.deleteBill = (request, response) => {
             }
         })
         .then(() => {
-            response.json(deletedBill);
+            return response.json(deletedBill);
         })
         .catch((err) => {
             response.status(500).json({ error: `could not delete bill` });

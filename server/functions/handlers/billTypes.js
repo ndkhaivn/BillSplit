@@ -82,7 +82,7 @@ exports.deleteBillType = (request, response) => {
             }
         })
         .then(() => {
-            response.json(deletedBillType);
+            return response.json(deletedBillType);
         })
         .catch((err) => {
             response.status(500).json({ error: `could not delete bill type` });

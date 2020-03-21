@@ -33,6 +33,7 @@ exports.validate = (method) => {
             ]
         }
     }
+    return true;
 };
 
 
@@ -132,7 +133,7 @@ exports.deleteTenant = (request, response) => {
             }
         })
         .then(() => {
-            response.json(deletedTenant);
+            return response.json(deletedTenant);
         })
         .catch((err) => {
             response.status(500).json({ error: `could not delete tenant` });
