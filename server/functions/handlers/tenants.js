@@ -9,8 +9,8 @@ const reduceTenantDetails = (data) => {
         tenantName: data.tenantName.trim(),
         stays: data.stays.map(stay => {
             return {
-                fromDate: moment(stay.fromDate, config.display_date_format).format(config.store_date_format),
-                toDate: moment(stay.toDate, config.display_date_format).format(config.store_date_format)
+                fromDate: moment(stay.fromDate, config.date_format),
+                toDate: moment(stay.toDate, config.date_format)
             }
         })
 
@@ -27,11 +27,11 @@ exports.validate = (method) => {
                     .matches(/^[a-zA-Z0-9 ]+$/i).withMessage('Must be a valid name'),
                 check('stays').custom(stays => {
                     for (let stay of stays) {
-                        if (!moment(stay.fromDate, config.display_date_format, true).isValid()) {
-                            throw new Error(`Date format not valid. Expect ${config.display_date_format}`);
+                        if (!moment(stay.fromDate, config.date_format, true).isValid()) {
+                            throw new Error(`Date format not valid. Expect ${config.date_format}`);
                         }
-                        if (!moment(stay.toDate, config.display_date_format, true).isValid()) {
-                            throw new Error(`Date format not valid. Expect ${config.display_date_format}`);
+                        if (!moment(stay.toDate, config.date_format, true).isValid()) {
+                            throw new Error(`Date format not valid. Expect ${config.date_format}`);
                         }
                     }
                     return true;

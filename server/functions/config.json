@@ -1,4 +1,3 @@
 {
-  "store_date_format": "DD/MM/YYYY",
-  "display_date_format": "DD/MM/YYYY"
+  "date_format": "DD/MM/YYYY"
 }
