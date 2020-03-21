@@ -7,13 +7,7 @@ const moment = require('moment');
 const reduceTenantDetails = (data) => {
     let tenantDetails = {
         tenantName: data.tenantName.trim(),
-        stays: data.stays.map(stay => {
-            return {
-                fromDate: moment(stay.fromDate, config.date_format),
-                toDate: moment(stay.toDate, config.date_format)
-            }
-        })
-
+        stays: data.stays
     };
     return tenantDetails;
 };
