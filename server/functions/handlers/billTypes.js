@@ -56,8 +56,8 @@ exports.getBillType = (request, response) => {
             billTypeData.bills = [];
             data.forEach((doc) => {
                 billTypeData.bills.push(doc.data());
-            })
-            response.json(billTypeData);
+            });
+            return response.json(billTypeData);
         })
         .catch((err) => {
             response.status(500).json({ error: err });
