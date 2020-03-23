@@ -9,7 +9,7 @@ const sanitizeBillDetails = (data) => {
         billTypeId: data.billTypeId,
         amount: Number(data.amount),
         paymentDate: data.paymentDate,
-        period: parseInt(data.period),
+        period: data.period,
         split: data.split.map((split) => {
             return {
                 tenantId: split.tenantId,
