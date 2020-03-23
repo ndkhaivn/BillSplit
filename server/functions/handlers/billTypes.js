@@ -47,7 +47,17 @@ exports.getBillType = (request, response) => {
             }
             billTypeData = doc.data();
             billTypeData.billTypeId = doc.id;
-            return response.json(billTypeData);
+            return db
+                .collection('bills')
+                .where('billTypeId', '==', doc.id)
+                .get()
+        })
+        .then((data) => {
+            billTypeData.bills = [];
+            data.forEach((doc) => {
+                billTypeData.bills.push(doc.data());
+            })
+            response.json(billTypeData);
         })
         .catch((err) => {
             response.status(500).json({ error: err });
