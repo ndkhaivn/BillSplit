@@ -5,7 +5,7 @@ import reducers from "./reducers";
 
 const initialState = {
   tenants: [],
-  bills: []
+  billTypes: []
 };
 const middleware = [thunk];
 

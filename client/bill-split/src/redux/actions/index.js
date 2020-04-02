@@ -1,5 +1,5 @@
 import {
-  SET_BILLS,
+  SET_BILL_TYPES,
   SET_TENANTS
 } from "../actionTypes";
 
@@ -22,17 +22,17 @@ export const getAllTenants = () => (dispatch) => {
     })
 };
 
-export const getAllBills = () => (dispatch) => {
-  axios.get('/bills')
+export const getAllBillTypes = () => (dispatch) => {
+  axios.get('/bill-types')
     .then(res => {
       dispatch({
-        type: SET_BILLS,
+        type: SET_BILL_TYPES,
         payload: res.data
       });
     })
     .catch(error => {
       dispatch({
-        type: SET_BILLS,
+        type: SET_BILL_TYPES,
         payload: []
       });
       console.log(error);

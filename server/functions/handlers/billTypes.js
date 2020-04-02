@@ -33,7 +33,7 @@ exports.getAllBillTypes = (request, response) => {
           });
 
       for (let bill of bills) {
-        let index = billTypes.findIndex(billType => billType.billTypeId == bill.billTypeId);
+        let index = billTypes.findIndex(billType => billType.billTypeId === bill.billTypeId);
         billTypes[index].bills.push(bill);
       }
 

@@ -2,6 +2,7 @@ import React, {Component} from "react";
 import { connect } from "react-redux";
 import axios from "axios";
 import {getAllTenants} from "../redux/actions";
+import { Intent, Spinner } from "@blueprintjs/core";
 
 class TenantList extends Component {
 
@@ -14,14 +15,7 @@ class TenantList extends Component {
 
     const tenants = this.props.tenants;
 
-    if (!tenants.length) {
-      return (
-        <ul className="nav">
-
-        </ul>
-      );
-    }
-    let tenantsMarkup = tenants.map((tenant) => <li key={tenant.tenantId} className="sidebar-item">{tenant.tenantName}</li>);
+    let tenantsMarkup = (tenants.length == 0) ? <Spinner intent={Intent.PRIMARY}/> : tenants.map((tenant) => <li key={tenant.tenantId} className="sidebar-item">{tenant.tenantName}</li>);
 
     return (
       <ul className="nav">

@@ -1,2 +1,2 @@
 export const SET_TENANTS = 'SET_TENANTS';
-export const SET_BILLS = 'SET_BILLS';
+export const SET_BILL_TYPES = 'SET_BILL_TYPES';
