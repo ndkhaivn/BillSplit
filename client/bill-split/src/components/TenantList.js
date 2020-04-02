@@ -1,24 +1,42 @@
 import React, {Component} from "react";
-import feather from "feather-icons";
+import { connect } from "react-redux";
+import axios from "axios";
+import {getAllTenants} from "../redux/actions";
 
 class TenantList extends Component {
 
+  componentDidMount() {
+
+    this.props.getAllTenants();
+  }
+
   render() {
-    const icon= {icon: "FiAperture"};
+
+    const tenants = this.props.tenants;
+
+    if (!tenants.length) {
+      return (
+        <ul className="nav">
+
+        </ul>
+      );
+    }
+    let tenantsMarkup = tenants.map((tenant) => <li key={tenant.tenantId} className="sidebar-item">{tenant.tenantName}</li>);
+
     return (
       <ul className="nav">
-        <li className="sidebar-item">
-          Khai Nguyen 1
-        </li>
-
-        <li className="sidebar-item">
-          Khai Nguyen 2
-        </li>
-
+        {tenantsMarkup}
       </ul>
     )
   }
 
 }
 
-export default TenantList;
+const mapStateToProps = (state) => ({
+  tenants: state.tenants
+});
+
+export default connect(
+  mapStateToProps,
+  { getAllTenants }
+)(TenantList);

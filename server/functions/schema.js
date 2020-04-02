@@ -1,4 +1,5 @@
 tenant = {
+    tenantId: "8DeOVTcLb2tBTzRlaIPr",
     tenantName: "John Doe",
     stays: [
         {
@@ -13,10 +14,12 @@ tenant = {
 };
 
 billType = {
+    billTypeId: "8DeOVTcLb2tBTzRlaIPr",
     title: "Red Energy Electricity",
 };
 
 bill = {
+    billId: "3Ty6RFcy36T8dnZnHSMO",
     billTypeId: "8DeOVTcLb2tBTzRlaIPr",
     amount: 359.55,
     paymentDate: "05/05/2019",
