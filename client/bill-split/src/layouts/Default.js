@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import Sidebar from "../components/Sidebar"
+import MainPanel from "../components/MainPanel"
 
 class Admin extends Component {
   constructor(props) {
@@ -15,9 +16,7 @@ class Admin extends Component {
           color={this.state.color}
         />
 
-        <div className="main-panel">
-
-        </div>
+        <MainPanel/>
       </div>
     );
   }
