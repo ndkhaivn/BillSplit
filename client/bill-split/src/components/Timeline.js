@@ -9,61 +9,81 @@ class Timeline extends Component {
   state = {
     options: {
       chart: {
+        type: 'line',
         stacked: false,
         zoom: {
-          enabled: true,
-          type: 'x',
-          autoScaleYaxis: true,
+          enabled: true
         },
-        toolbar: {
-          autoSelected: 'zoom'
-        }
       },
-      plotOptions: {
-        bar: {
-          horizontal: true
+      stroke: {
+        width: 20,
+        curve: 'smooth'
+      },
+      colors: ['#008FFB', '#00E396', '#CED4DC'],
+      dataLabels: {
+        enabled: false
+      },
+      markers: {
+        size: 0,
+      },
+      fill: {
+        type: 'solid',
+        opacity: 1
+      },
+      yaxis: {
+        labels: {
+          formatter: value => {
+            return value;
+            switch (value) {
+              case 1: return "A"; break;
+              case 2: return "B"; break;
+              case 3: return "C"; break;
+            }
+          }
         }
       },
       xaxis: {
         type: 'datetime',
+        tickAmount: 8,
+        min: new Date("01/01/2014").getTime(),
+        max: new Date("01/20/2014").getTime(),
         labels: {
-          style: {
-            fontSize: '14px'
+          rotate: -15,
+          rotateAlways: true,
+          formatter: function(val, timestamp) {
+            return moment(new Date(timestamp)).format("DD/MM/YYYY")
           }
         }
       },
-      yaxis: {
-        labels: {
-          style: {
-            fontSize: '14px'
-          }
-        }
+      title: {
+        text: 'Irregular Data in Time Series',
+        align: 'left',
+        offsetX: 14
+      },
+      legend: {
+        position: 'top',
+        horizontalAlign: 'right',
+        offsetX: -10
       }
     },
   };
 
   render() {
 
-    let data = [];
-    for (let billType of this.props.billTypes) {
-      data = data.concat(billType.bills.map(bill => ({
-        x: billType.title,
-        y: [
-          moment(bill.period.fromDate, config.date_format).toDate().getTime(),
-          moment(bill.period.toDate, config.date_format).toDate().getTime(),
-        ]
-      })));
-    }
-
     let series = [{
-      data
+      name: 'PRODUCT A',
+      data: [[new Date("01/01/2014").getTime(), 1], [new Date("1/10/2014").getTime(), 1], [new Date("01/20/2014").getTime(), 1]]
+    }, {
+      name: 'PRODUCT B',
+      data: [[new Date("01/02/2014").getTime(), 2], [new Date("1/10/2014").getTime(), 2], [new Date("01/20/2014").getTime(), 2]]
+    }, {
+      name: 'PRODUCT C',
+      data: [[new Date("01/05/2014").getTime(), 3], [new Date("1/10/2014").getTime(), 3], [new Date("01/15/2014").getTime(), 3]]
     }];
-
-    console.log(series);
 
     return (
       <div>
-        <ReactApexChart options={this.state.options} series={series} type="rangeBar" heigth={350}/>
+        <ReactApexChart options={this.state.options} series={series} type="line" heigth={350}/>
       </div>
     );
   }
