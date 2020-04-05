@@ -3,87 +3,116 @@ import ReactApexChart from "react-apexcharts"
 import {connect} from "react-redux";
 import moment from "moment";
 import config from "../config";
+import { DateRangeInput } from "@blueprintjs/datetime";
 
 class Timeline extends Component {
 
-  state = {
-    options: {
-      chart: {
-        type: 'line',
-        stacked: false,
-        zoom: {
-          enabled: true
-        },
-      },
-      stroke: {
-        width: 20,
-        curve: 'smooth'
-      },
-      colors: ['#008FFB', '#00E396', '#CED4DC'],
-      dataLabels: {
-        enabled: false
-      },
-      markers: {
-        size: 0,
-      },
-      fill: {
-        type: 'solid',
-        opacity: 1
-      },
-      yaxis: {
-        labels: {
-          formatter: value => {
-            return value;
-            switch (value) {
-              case 1: return "A"; break;
-              case 2: return "B"; break;
-              case 3: return "C"; break;
-            }
+  constructor(props) {
+    super(props);
+
+    this.state = {
+  
+      startDate: moment().subtract(2, "months").toDate(),
+      endDate: moment().toDate()
+
+    }
+    this.handleRangeChange = this.handleRangeChange.bind(this);
+    this.handleResetButton = this.handleResetButton.bind(this);
+  }
+
+  handleRangeChange(selectedRange) {
+    if (!selectedRange[0] || !selectedRange[1]) {
+      return;
+    }
+    this.setState((state) => ({
+      ...state,
+      ...selectedRange[0] && { startDate: selectedRange[0] },
+      ...selectedRange[1] && { endDate: selectedRange[1] }
+      }
+    ));
+  }
+
+  handleResetButton() {
+    let startDate = moment().subtract(2, "months").toDate();
+    let endDate = moment().toDate();
+
+    this.setState((state) => ({
+      startDate,
+      endDate
+    }));
+  }
+
+  render() {
+
+    let series = [
+      {
+        data: [
+          {
+            x: 'Code',
+            y: [
+              new Date('2020-03-02').getTime(),
+              new Date('2020-03-04').getTime()
+            ]
+          },
+          {
+            x: 'Test',
+            y: [
+              new Date('2020-03-04').getTime(),
+              new Date('2020-03-08').getTime()
+            ]
+          },
+          {
+            x: 'Validation',
+            y: [
+              new Date('2020-03-08').getTime(),
+              new Date('2020-03-12').getTime()
+            ]
+          },
+          {
+            x: 'Deployment',
+            y: [
+              new Date('2020-03-12').getTime(),
+              new Date('2020-03-18').getTime()
+            ]
           }
+        ]
+      }
+    ];
+
+    const options = {
+      chart: {
+        height: 350,
+        type: 'rangeBar',
+      },
+      plotOptions: {
+        bar: {
+          horizontal: true
         }
       },
       xaxis: {
         type: 'datetime',
-        tickAmount: 8,
-        min: new Date("01/01/2014").getTime(),
-        max: new Date("01/20/2014").getTime(),
-        labels: {
-          rotate: -15,
-          rotateAlways: true,
-          formatter: function(val, timestamp) {
-            return moment(new Date(timestamp)).format("DD/MM/YYYY")
-          }
-        }
+        tickPlacement: 'on'
       },
-      title: {
-        text: 'Irregular Data in Time Series',
-        align: 'left',
-        offsetX: 14
-      },
-      legend: {
-        position: 'top',
-        horizontalAlign: 'right',
-        offsetX: -10
+      yaxis: {
+        min: this.state.startDate.getTime(),
+        max: this.state.endDate.getTime(),
       }
-    },
-  };
-
-  render() {
-
-    let series = [{
-      name: 'PRODUCT A',
-      data: [[new Date("01/01/2014").getTime(), 1], [new Date("1/10/2014").getTime(), 1], [new Date("01/20/2014").getTime(), 1]]
-    }, {
-      name: 'PRODUCT B',
-      data: [[new Date("01/02/2014").getTime(), 2], [new Date("1/10/2014").getTime(), 2], [new Date("01/20/2014").getTime(), 2]]
-    }, {
-      name: 'PRODUCT C',
-      data: [[new Date("01/05/2014").getTime(), 3], [new Date("1/10/2014").getTime(), 3], [new Date("01/15/2014").getTime(), 3]]
-    }];
-
+    };
+    
     return (
+
       <div>
-        <ReactApexChart options={this.state.options} series={series} type="line" heigth={350}/>
+
+        <DateRangeInput
+          formatDate={date => moment(date).format("DD/MM/YYYY")}
+          onChange={this.handleRangeChange}
+          parseDate={str => new Date(str)}
+          value={[this.state.startDate, this.state.endDate]}
+        />
+
+        <button onClick={this.handleResetButton}>Reset</button>
+
+        <ReactApexChart options={options} series={series} type="rangeBar" heigth={350}/>
       </div>
     );
   }
