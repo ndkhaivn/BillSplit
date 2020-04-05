@@ -1,4 +1,4 @@
-import {SET_BILL_TYPES, SET_TENANTS} from "../actionTypes";
+import {SET_BILL_TYPES, SET_TENANTS, ADD_TENANT} from "../actionTypes";
 import { combineReducers } from "redux";
 
 const initialState = {
@@ -8,6 +8,11 @@ const initialState = {
 
 const tenantReducer = function (state = initialState, action) {
   switch (action.type) {
+    case ADD_TENANT:
+      return {
+        ...state,
+        tenants: state.tenants.concat([action.payload])
+      }
     case SET_TENANTS:
       return {
         ...state,

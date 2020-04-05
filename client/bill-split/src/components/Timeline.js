@@ -17,7 +17,6 @@ class Timeline extends Component {
 
     }
     this.handleRangeChange = this.handleRangeChange.bind(this);
-    this.handleResetButton = this.handleResetButton.bind(this);
   }
 
   handleRangeChange(selectedRange) {
@@ -30,16 +29,6 @@ class Timeline extends Component {
       ...selectedRange[1] && { endDate: selectedRange[1] }
       }
     ));
-  }
-
-  handleResetButton() {
-    let startDate = moment().subtract(2, "months").toDate();
-    let endDate = moment().toDate();
-
-    this.setState((state) => ({
-      startDate,
-      endDate
-    }));
   }
 
   render() {
@@ -99,9 +88,6 @@ class Timeline extends Component {
           parseDate={str => new Date(str)}
           value={[this.state.startDate, this.state.endDate]}
         />
-
-        <button onClick={this.handleResetButton}>Reset</button>
-
         <ReactApexChart options={options} series={series} type="rangeBar" heigth={350}/>
       </div>
     );
