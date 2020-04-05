@@ -15,7 +15,7 @@ class BillType extends Component {
     const billType = this.props.billType;
     const bills = billType.bills;
 
-    let billsMarkup = bills.map(bill => <span> {`${bill.period.fromDate} - ${bill.period.toDate}`} </span>);
+    let billsMarkup = bills.map(bill => <div key={bill.billId}> {`${bill.period.fromDate} - ${bill.period.toDate}`} </div>);
 
     return (
       <div>

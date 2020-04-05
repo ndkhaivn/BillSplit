@@ -44,40 +44,31 @@ class Timeline extends Component {
 
   render() {
 
-    let series = [
-      {
-        data: [
-          {
-            x: 'Code',
-            y: [
-              new Date('2020-03-02').getTime(),
-              new Date('2020-03-04').getTime()
-            ]
-          },
-          {
-            x: 'Test',
-            y: [
-              new Date('2020-03-04').getTime(),
-              new Date('2020-03-08').getTime()
-            ]
-          },
-          {
-            x: 'Validation',
-            y: [
-              new Date('2020-03-08').getTime(),
-              new Date('2020-03-12').getTime()
-            ]
-          },
-          {
-            x: 'Deployment',
-            y: [
-              new Date('2020-03-12').getTime(),
-              new Date('2020-03-18').getTime()
-            ]
-          }
+    let data = [];
+    for (let billType of this.props.billTypes) {
+      data = data.concat(billType.bills.map(bill => ({
+        x: billType.title,
+        y: [
+          moment.utc(bill.period.fromDate, config.date_format).toDate().getTime(),
+          moment.utc(bill.period.toDate, config.date_format).toDate().getTime(),
         ]
-      }
-    ];
+      })));
+    }
+
+    for (let tenant of this.props.tenants) {
+      data = data.concat(tenant.stays.map(stay => ({
+        x: tenant.tenantName,
+        y: [
+          moment.utc(stay.fromDate, config.date_format).toDate().getTime(),
+          moment.utc(stay.toDate, config.date_format).toDate().getTime(),
+        ],
+        fillColor: config.default_tenant_color,
+      })));
+    }
+
+    let series = [{ 
+      data 
+    }];
 
     const options = {
       chart: {
@@ -91,12 +82,11 @@ class Timeline extends Component {
       },
       xaxis: {
         type: 'datetime',
-        tickPlacement: 'on'
       },
       yaxis: {
         min: this.state.startDate.getTime(),
         max: this.state.endDate.getTime(),
-      }
+      },
     };
     
     return (
@@ -119,7 +109,8 @@ class Timeline extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  billTypes: state.billTypes
+  billTypes: state.billTypes,
+  tenants: state.tenants
 });
 
 export default connect(

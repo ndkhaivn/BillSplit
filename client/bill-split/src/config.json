@@ -1,3 +1,4 @@
 {
-  "date_format": "DD/MM/YYYY"
+  "date_format": "DD/MM/YYYY",
+  "default_tenant_color": "#FCB900"
 }
