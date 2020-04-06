@@ -1,5 +1,4 @@
 import {SET_BILL_TYPES, SET_TENANTS, ADD_TENANT} from "../actionTypes";
-import { combineReducers } from "redux";
 
 const initialState = {
   tenants: [],

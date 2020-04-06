@@ -71,9 +71,6 @@ class Sidebar extends Component {
                 isOpen={this.state.showAddTenantPopup}
                 interactionKind={PopoverInteractionKind.CLICK}
                 popoverClassName="bp3-popover-content-sizing"
-                content={<div>
-                  abc
-                </div>}
                 position={Position.LEFT}
               > 
                 <Button icon="add" minimal={true} intent={Intent.PRIMARY} onClick={this.handleToggleAddTenant}></Button>

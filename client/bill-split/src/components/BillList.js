@@ -1,8 +1,7 @@
 import React, {Component} from "react";
 import { connect } from "react-redux";
-import axios from "axios";
 import { getAllBillTypes } from "../redux/actions";
-import { Intent, Spinner, Collapse } from "@blueprintjs/core";
+import { Intent, Spinner } from "@blueprintjs/core";
 import BillType from "./BillType"
 
 class BillList extends Component {
