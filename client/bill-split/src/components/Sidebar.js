@@ -4,7 +4,7 @@ import logo from "../logo.svg";
 import TenantList from "./TenantList";
 import BillList from "./BillList";
 import { Button, Intent, Popover, PopoverInteractionKind, Position, InputGroup } from "@blueprintjs/core"
-import { addTenant } from "../redux/actions"
+import { addTenant, addBillType } from "../redux/actions"
 import { connect } from "react-redux";
 
 class Sidebar extends Component {
@@ -12,25 +12,25 @@ class Sidebar extends Component {
       super(props);
 
       this.state = {
-        showAddTenantPopup: false
       };
 
-      this.handleToggleAddTenant = this.handleToggleAddTenant.bind(this);
       this.handleAddTenant = this.handleAddTenant.bind(this);
       this.handleInputChange = this.handleInputChange.bind(this);
-  }
 
-  handleToggleAddTenant() {
-    this.setState((state) => ({
-      showAddTenantPopup: !state.showAddTenantPopup
-    }));
+      this.handleAddBillType = this.handleAddBillType.bind(this);
   }
 
   handleAddTenant() {
-    this.handleToggleAddTenant();
     this.props.addTenant({
       tenantName: this.state.newTenantName,
       stays: []
+    });
+  }
+
+  handleAddBillType() {
+    this.props.addBillType({
+      title: this.state.newBillTypeTitle,
+      bills: []
     });
   }
 
@@ -73,22 +73,22 @@ class Sidebar extends Component {
                 popoverClassName="bp3-popover-content-sizing"
                 position={Position.LEFT}
               > 
-                <Button icon="add" minimal={true} intent={Intent.PRIMARY} onClick={this.handleToggleAddTenant}></Button>
-                  <div>
+                <Button icon="add" minimal={true} intent={Intent.PRIMARY}></Button>
+                <div>
 
-                    <form>
-                      <InputGroup
-                        value={this.state.newTenantName}
-                        onChange={this.handleInputChange}
-                        name="newTenantName"
-                        leftIcon="new-person"
-                        placeholder="Tenant Name"
-                      />
-                    </form>
+                  <form>
+                    <InputGroup
+                      value={this.state.newTenantName}
+                      onChange={this.handleInputChange}
+                      name="newTenantName"
+                      leftIcon="new-person"
+                      placeholder="Tenant Name"
+                    />
+                  </form>
 
-                    <Button onClick={this.handleToggleAddTenant}>Cancel</Button>
-                    <Button onClick={this.handleAddTenant} intent={Intent.PRIMARY}>Submit</Button>
-                  </div>
+                  <Button className="bp3-popover-dismiss">Cancel</Button>
+                  <Button className="bp3-popover-dismiss" onClick={this.handleAddTenant} intent={Intent.PRIMARY}>Submit</Button>
+                </div>
               </Popover>
 
               
@@ -102,11 +102,36 @@ class Sidebar extends Component {
             </div>
 
             <div>
-              <div
+
+            <Popover
+                // isOpen={this.state.showAddBillTypePopup}
+                interactionKind={PopoverInteractionKind.CLICK}
+                popoverClassName="bp3-popover-content-sizing"
+                position={Position.LEFT}
+            > 
+              <Button icon="add" minimal={true} intent={Intent.PRIMARY}></Button>
+              <div>
+
+                <form>
+                  <InputGroup
+                    value={this.state.newBillTypeTitle}
+                    onChange={this.handleInputChange}
+                    name="newBillTypeTitle"
+                    leftIcon="folder-new"
+                    placeholder="Bill Type"
+                  />
+                </form>
+
+                <Button className="bp3-popover-dismiss">Cancel</Button>
+                <Button className="bp3-popover-dismiss" onClick={this.handleAddBillType} intent={Intent.PRIMARY}>Submit</Button>
+              </div>
+            </Popover>
+
+              <span
                 className="simple-text"
               >
                 Bills
-              </div>
+              </span>
               <BillList/>
             </div>
 
@@ -121,5 +146,7 @@ class Sidebar extends Component {
 
 export default connect(
   null,
-  { addTenant }
+  { addTenant,
+    addBillType
+  }
 )(Sidebar);

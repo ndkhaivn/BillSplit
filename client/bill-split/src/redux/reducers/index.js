@@ -1,4 +1,4 @@
-import {SET_BILL_TYPES, SET_TENANTS, ADD_TENANT} from "../actionTypes";
+import {SET_BILL_TYPES, SET_TENANTS, ADD_TENANT, ADD_BILL_TYPE} from "../actionTypes";
 
 const initialState = {
   tenants: [],
@@ -22,6 +22,11 @@ const tenantReducer = function (state = initialState, action) {
         ...state,
         billTypes: action.payload
       };
+    case ADD_BILL_TYPE:
+      return {
+        ...state,
+        billTypes: state.billTypes.concat([action.payload])
+      }
     default:
       return state;
   }

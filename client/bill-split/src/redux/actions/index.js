@@ -1,7 +1,8 @@
 import {
   SET_BILL_TYPES,
   SET_TENANTS,
-  ADD_TENANT
+  ADD_TENANT,
+  ADD_BILL_TYPE
 } from "../actionTypes";
 
 import axios from "axios";
@@ -52,3 +53,16 @@ export const getAllBillTypes = () => (dispatch) => {
       console.log(error);
     })
 };
+
+export const addBillType = (billType) => (dispatch) => {
+  axios.post("/bill-types", billType)
+    .then(() => {
+      dispatch({
+        type: ADD_BILL_TYPE,
+        payload: billType
+      });
+    })
+    .catch((error => {
+      console.log(error);
+    }));
+}
