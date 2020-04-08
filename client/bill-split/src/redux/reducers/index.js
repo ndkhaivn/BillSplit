@@ -1,11 +1,16 @@
-import {SET_BILL_TYPES, SET_TENANTS, ADD_TENANT, ADD_BILL_TYPE} from "../actionTypes";
+import {SET_BILL_TYPES, SET_TENANTS, ADD_TENANT, ADD_BILL_TYPE, TOGGLE_ADD_BILL_DIALOG, SET_CURRENT_BILL_TYPE } from "../actionTypes";
 
 const initialState = {
   tenants: [],
-  billTypes: []
+  billTypes: [],
+  addBillDialog: {
+    isOpen: false,
+    billTypeId: "",
+    title: ""
+  }
 };
 
-const tenantReducer = function (state = initialState, action) {
+const reducers = function (state = initialState, action) {
   switch (action.type) {
     case ADD_TENANT:
       return {
@@ -27,9 +32,26 @@ const tenantReducer = function (state = initialState, action) {
         ...state,
         billTypes: state.billTypes.concat([action.payload])
       }
+    case TOGGLE_ADD_BILL_DIALOG:
+      return {
+        ...state,
+        addBillDialog: {
+          ...state.addBillDialog,
+          isOpen: !state.addBillDialog.isOpen
+        }
+      }
+    case SET_CURRENT_BILL_TYPE:
+      return {
+        ...state,
+        addBillDialog: {
+          ...state.addBillDialog,
+          billTypeId: action.payload.billTypeId,
+          title: action.payload.title
+        }
+      }
     default:
       return state;
   }
 };
 
-export default tenantReducer;
+export default reducers;

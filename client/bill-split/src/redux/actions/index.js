@@ -2,7 +2,9 @@ import {
   SET_BILL_TYPES,
   SET_TENANTS,
   ADD_TENANT,
-  ADD_BILL_TYPE
+  ADD_BILL_TYPE,
+  TOGGLE_ADD_BILL_DIALOG,
+  SET_CURRENT_BILL_TYPE
 } from "../actionTypes";
 
 import axios from "axios";
@@ -65,4 +67,17 @@ export const addBillType = (billType) => (dispatch) => {
     .catch((error => {
       console.log(error);
     }));
+}
+
+export const toggleAddBillDialog = () => (dispatch) => {
+  dispatch({
+    type: TOGGLE_ADD_BILL_DIALOG
+  });
+}
+
+export const setCurrentBillType = (billType) => (dispatch) => {
+  dispatch({
+    type: SET_CURRENT_BILL_TYPE,
+    payload: billType
+  });
 }

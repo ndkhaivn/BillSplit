@@ -5,7 +5,12 @@ import reducers from "./reducers";
 
 const initialState = {
   tenants: [],
-  billTypes: []
+  billTypes: [],
+  addBillDialog: {
+    isOpen: false,
+    billTypeId: "",
+    title: ""
+  }
 };
 const middleware = [thunk];
 

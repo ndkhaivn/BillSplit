@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import { getAllBillTypes } from "../redux/actions";
 import { Intent, Spinner } from "@blueprintjs/core";
 import BillType from "./BillType";
+import AddBillDialog from "./AddBillDialog";
 
 class BillList extends Component {
   componentDidMount() {
@@ -21,7 +22,12 @@ class BillList extends Component {
         ))
       );
 
-    return <ul className="nav">{billTypesMarkup}</ul>;
+    return (
+      <div>
+        <AddBillDialog></AddBillDialog>
+        <ul className="nav">{billTypesMarkup}</ul>;
+      </div> 
+    );
   }
 }
 
