@@ -20,9 +20,9 @@ class TenantList extends Component {
             {tenant.tenantName}
 
             <div className="overlay-edit">
-              <Button icon="edit" ></Button>
+              <Button icon="edit" outlined="true"></Button>
 
-              <Button icon="plus" ></Button>
+              <Button icon="plus" outlined="true"></Button>
             </div>
           </li>
         ))

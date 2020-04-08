@@ -20,9 +20,7 @@ class BillType extends Component {
         {`${bill.period.fromDate} - ${bill.period.toDate}`}
         
         <div className="overlay-edit-child">
-          <Button icon="edit" ></Button>
-
-          <Button icon="plus" ></Button>
+          <Button icon="edit" outlined="true"></Button>
         </div>
 
       </li>);

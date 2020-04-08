@@ -16,10 +16,13 @@
     width: 300px;
     display: block;
     z-index: 1;
-    color: #fff;
+    color: #000;
     font-weight: 200;
     background-size: cover;
-    background-position: center center; }
+    background-position: center center; 
+    font-family: Helvetica, Arial, sans-serif;
+    box-shadow: 2px 0 2.94px 0.06px rgba(4, 26, 55, 0.16);
+    }
 .sidebar .sidebar-wrapper {
     position: relative;
     height: calc(100vh - 75px);
@@ -36,7 +39,7 @@
     float: left;
     font-size: 20px;
     margin: 10px 10px;
-    color: #FFFFFF;
+    color: #000;
     line-height: 20px;
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; }
 .sidebar .logo a.logo-mini {
@@ -61,7 +64,7 @@
     border-radius: 30px;
     text-align: center; }
 
-.sidebar:after, .sidebar:before {
+/* .sidebar:after, .sidebar:before {
     display: block;
     content: "";
     position: absolute;
@@ -85,7 +88,7 @@
     background: linear-gradient(to bottom, #282828 0%, #111 100%);
     background-size: 150% 150%;
     z-index: 3;
-    opacity: .77; }
+    opacity: .77; } */
 
 .sidebar .logo {
     padding: 10px 30px;
@@ -94,14 +97,14 @@
     float: left;
     font-size: 20px;
     margin: 10px 10px;
-    color: #FFFFFF;
+    color: #000;
     line-height: 20px;
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; }
 .sidebar .logo .simple-text,
 body {
     padding: 5px 0px;
     display: block;
-    color: #FFFFFF;
+    color: #000;
     font-weight: 400;
     line-height: 30px; }
 
@@ -118,7 +121,7 @@ body {
 }
 
 .sidebar-item {
-    color: #FFFFFF;
+    color: #000;
     margin: 5px 15px;
     opacity: .86;
     border-radius: 4px;
