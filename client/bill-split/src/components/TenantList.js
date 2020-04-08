@@ -1,35 +1,39 @@
-import React, {Component} from "react";
+import React, { Component } from "react";
 import { connect } from "react-redux";
-import {getAllTenants} from "../redux/actions";
-import { Intent, Spinner } from "@blueprintjs/core";
+import { getAllTenants } from "../redux/actions";
+import { Intent, Spinner, Button, Colors } from "@blueprintjs/core";
 
 class TenantList extends Component {
-
   componentDidMount() {
-
     this.props.getAllTenants();
   }
 
   render() {
-
     const tenants = this.props.tenants;
 
-    let tenantsMarkup = (tenants.length === 0) ? <Spinner intent={Intent.PRIMARY}/> : tenants.map((tenant) => <li key={tenant.tenantId} className="sidebar-item">{tenant.tenantName}</li>);
+    let tenantsMarkup =
+      tenants.length === 0 ? (
+        <Spinner intent={Intent.PRIMARY} />
+      ) : (
+        tenants.map((tenant) => (
+          <li key={tenant.tenantId} className="sidebar-item">
+            {tenant.tenantName}
 
-    return (
-      <ul className="nav">
-        {tenantsMarkup}
-      </ul>
-    )
+            <div className="overlay-edit">
+              <Button icon="edit" ></Button>
+
+              <Button icon="plus" ></Button>
+            </div>
+          </li>
+        ))
+      );
+
+    return <ul className="nav">{tenantsMarkup}</ul>;
   }
-
 }
 
 const mapStateToProps = (state) => ({
-  tenants: state.tenants
+  tenants: state.tenants,
 });
 
-export default connect(
-  mapStateToProps,
-  { getAllTenants }
-)(TenantList);
+export default connect(mapStateToProps, { getAllTenants })(TenantList);

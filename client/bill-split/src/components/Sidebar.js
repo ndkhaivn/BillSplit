@@ -1,81 +1,80 @@
 import { Link } from "react-router-dom";
-import React, {Component} from "react";
+import React, { Component } from "react";
 import logo from "../logo.svg";
 import TenantList from "./TenantList";
 import BillList from "./BillList";
-import { Button, Intent, Popover, PopoverInteractionKind, Position, InputGroup } from "@blueprintjs/core"
-import { addTenant, addBillType } from "../redux/actions"
+import {
+  Button,
+  Intent,
+  Popover,
+  PopoverInteractionKind,
+  Position,
+  InputGroup,
+} from "@blueprintjs/core";
+import { addTenant, addBillType } from "../redux/actions";
 import { connect } from "react-redux";
 
 class Sidebar extends Component {
   constructor(props) {
-      super(props);
+    super(props);
 
-      this.state = {
-      };
+    this.state = {};
 
-      this.handleAddTenant = this.handleAddTenant.bind(this);
-      this.handleInputChange = this.handleInputChange.bind(this);
+    this.handleAddTenant = this.handleAddTenant.bind(this);
+    this.handleInputChange = this.handleInputChange.bind(this);
 
-      this.handleAddBillType = this.handleAddBillType.bind(this);
+    this.handleAddBillType = this.handleAddBillType.bind(this);
   }
 
   handleAddTenant() {
     this.props.addTenant({
       tenantName: this.state.newTenantName,
-      stays: []
+      stays: [],
     });
   }
 
   handleAddBillType() {
     this.props.addBillType({
       title: this.state.newBillTypeTitle,
-      bills: []
+      bills: [],
     });
   }
 
   handleInputChange(event) {
     this.setState({
-      [event.target.name]: event.target.value
+      [event.target.name]: event.target.value,
     });
   }
 
   render() {
     return (
-      <div
-        className="sidebar"
-        data-color="black"
-      >
+      <div className="sidebar" data-color="black">
         <div>
           <div className="logo">
-            <Link
-              to="/"
-              className="simple-text logo-mini"
-            >
+            <Link to="/" className="simple-text logo-mini">
               <div className="logo-img">
                 <img src={logo} alt="logo_image" />
               </div>
             </Link>
-            <Link
-              to="/"
-              className="simple-text logo-normal"
-            >
+            <Link to="/" className="simple-text logo-normal">
               BillSplit
             </Link>
           </div>
 
           <div className="sidebar-wrapper">
             <div>
-
               <Popover
                 isOpen={this.state.showAddTenantPopup}
                 interactionKind={PopoverInteractionKind.CLICK}
                 popoverClassName="bp3-popover-content-sizing"
                 position={Position.LEFT}
-              > 
-                <Button icon="add" minimal={true} intent={Intent.PRIMARY}></Button>
+              >
+                <Button
+                  icon="add"
+                  minimal={true}
+                  intent={Intent.PRIMARY}
+                ></Button>
                 <div>
-
                   <form>
                     <InputGroup
                       value={this.state.newTenantName}
@@ -87,66 +86,62 @@ class Sidebar extends Component {
                   </form>
 
                   <Button className="bp3-popover-dismiss">Cancel</Button>
-                  <Button className="bp3-popover-dismiss" onClick={this.handleAddTenant} intent={Intent.PRIMARY}>Submit</Button>
+                  <Button
+                    className="bp3-popover-dismiss"
+                    onClick={this.handleAddTenant}
+                    intent={Intent.PRIMARY}
+                  >
+                    Submit
+                  </Button>
                 </div>
               </Popover>
 
-              
-
-              <span
-                className="simple-text"
-              >
-                Tenants
-              </span>
-              <TenantList/>
+              <span className="simple-text">Tenants</span>
+              <TenantList />
             </div>
 
             <div>
-
-            <Popover
+              <Popover
                 // isOpen={this.state.showAddBillTypePopup}
                 interactionKind={PopoverInteractionKind.CLICK}
                 popoverClassName="bp3-popover-content-sizing"
                 position={Position.LEFT}
-            > 
-              <Button icon="add" minimal={true} intent={Intent.PRIMARY}></Button>
-              <div>
-
-                <form>
-                  <InputGroup
-                    value={this.state.newBillTypeTitle}
-                    onChange={this.handleInputChange}
-                    name="newBillTypeTitle"
-                    leftIcon="folder-new"
-                    placeholder="Bill Type"
-                  />
-                </form>
-
-                <Button className="bp3-popover-dismiss">Cancel</Button>
-                <Button className="bp3-popover-dismiss" onClick={this.handleAddBillType} intent={Intent.PRIMARY}>Submit</Button>
-              </div>
-            </Popover>
-
-              <span
-                className="simple-text"
               >
-                Bills
-              </span>
-              <BillList/>
-            </div>
+                <Button
+                  icon="add"
+                  minimal={true}
+                  intent={Intent.PRIMARY}
+                ></Button>
+                <div>
+                  <form>
+                    <InputGroup
+                      value={this.state.newBillTypeTitle}
+                      onChange={this.handleInputChange}
+                      name="newBillTypeTitle"
+                      leftIcon="folder-new"
+                      placeholder="Bill Type"
+                    />
+                  </form>
 
+                  <Button className="bp3-popover-dismiss">Cancel</Button>
+                  <Button
+                    className="bp3-popover-dismiss"
+                    onClick={this.handleAddBillType}
+                    intent={Intent.PRIMARY}
+                  >
+                    Submit
+                  </Button>
+                </div>
+              </Popover>
+
+              <span className="simple-text">Bills</span>
+              <BillList />
+            </div>
           </div>
         </div>
-
-
       </div>
-    )
+    );
   }
 }
 
-export default connect(
-  null,
-  { addTenant,
-    addBillType
-  }
-)(Sidebar);
+export default connect(null, { addTenant, addBillType })(Sidebar);

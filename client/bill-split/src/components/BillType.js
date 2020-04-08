@@ -1,4 +1,4 @@
-import {Collapse} from "@blueprintjs/core";
+import {Collapse, Icon, Button} from "@blueprintjs/core";
 import React, {Component} from "react";
 
 class BillType extends Component {
@@ -15,20 +15,35 @@ class BillType extends Component {
     const billType = this.props.billType;
     const bills = billType.bills;
 
-    let billsMarkup = bills.map(bill => <div key={bill.billId}> {`${bill.period.fromDate} - ${bill.period.toDate}`} </div>);
+    let billsMarkup = bills.map(bill => 
+      <li key={bill.billId}> 
+        {`${bill.period.fromDate} - ${bill.period.toDate}`}
+        
+        <div className="overlay-edit-child">
+          <Button icon="edit" ></Button>
+
+          <Button icon="plus" ></Button>
+        </div>
+
+      </li>);
 
     return (
-      <div>
-        
+
       <li key={billType.billTypeId} className="sidebar-item" >
-        <div onClick={this.handleClick}> {billType.title} </div>
+        <div onClick={this.handleClick}> 
+          <Icon icon={this.state.isOpen? "chevron-down" : "chevron-right"}> </Icon>
+          {billType.title} 
+        </div>
+
+        <Collapse isOpen={this.state.isOpen}>
+          <ul className="nav">
+          {billsMarkup}
+          </ul>
+          
+        </Collapse>
+
       </li>
 
-      <Collapse isOpen={this.state.isOpen}>
-        {billsMarkup}
-      </Collapse>
-
-      </div>
     );
   }
 }
