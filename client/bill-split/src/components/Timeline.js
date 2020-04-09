@@ -85,7 +85,7 @@ class Timeline extends Component {
         <DateRangeInput
           formatDate={date => moment(date).format("DD/MM/YYYY")}
           onChange={this.handleRangeChange}
-          parseDate={str => new Date(str)}
+          parseDate={str => moment(str, config.date_format).toDate()}
           value={[this.state.startDate, this.state.endDate]}
         />
         <ReactApexChart options={options} series={series} type="rangeBar" heigth={350}/>

@@ -25,7 +25,7 @@ class BillList extends Component {
     return (
       <div>
         <AddBillDialog></AddBillDialog>
-        <ul className="nav">{billTypesMarkup}</ul>;
+        <ul className="nav">{billTypesMarkup}</ul>
       </div> 
     );
   }

@@ -200,3 +200,11 @@ body {
 .sidebar li:hover > .overlay-edit-child {
     opacity: 1
 }
+
+.flex-one {
+    flex: 1 1 auto
+}
+
+.full-width {
+    width: 100%
+}

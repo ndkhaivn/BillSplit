@@ -6,7 +6,10 @@ const initialState = {
   addBillDialog: {
     isOpen: false,
     billTypeId: "",
-    title: ""
+    title: "",
+    paymentDate: "",
+    period: {},
+    split: []
   }
 };
 
