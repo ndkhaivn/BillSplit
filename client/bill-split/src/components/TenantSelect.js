@@ -21,7 +21,9 @@ class TenantSelect extends Component {
     }
 
     return tenants.filter((tenant) => {
-      return tenant.tenantName.indexOf(query) > 0;
+      const normalizedName = tenant.tenantName.toLowerCase();
+      const normalizedQuery = query.toLowerCase();
+      return normalizedName.indexOf(normalizedQuery) >= 0;
     });
   };
 
@@ -47,7 +49,7 @@ class TenantSelect extends Component {
           Tenant
           <Select
             id="select-tenant"
-            items={this.props.tenants}
+            items={this.filterTenant(this.props.tenants, this.state.query)}
             itemRenderer={this.renderSelect}
             onItemSelect={this.handleItemSelect}
             filterable={true}
