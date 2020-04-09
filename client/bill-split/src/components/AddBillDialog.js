@@ -7,7 +7,8 @@ import {
   Classes,
   NumericInput,
   Intent,
-  ControlGroup
+  ControlGroup,
+  Divider
 } from "@blueprintjs/core";
 import { DateRangeInput, DateInput } from "@blueprintjs/datetime";
 import { connect } from "react-redux";
@@ -20,7 +21,7 @@ class AddBillDialog extends Component {
   state = {
     startDate: null,
     endDate: null,
-    amount: 0,
+    amount: 0.0,
     paymentDate: null,
   };
 
@@ -80,9 +81,9 @@ class AddBillDialog extends Component {
                 <NumericInput
                   id="amount-input"
                   fill={true}
-                  inline={true}
                   value={this.state.amount}
                   onValueChange={this.handleAmountChange}
+                  leftIcon="dollar"
                   buttonPosition="none"
                 />
               </FormGroup>
@@ -93,7 +94,6 @@ class AddBillDialog extends Component {
                   placeholder={config.date_format}
                   id="payment-date-input"
                   fill={true}
-                  inline={true}
                   formatDate={(date) => moment(date).format("DD/MM/YYYY")}
                   value={this.state.paymentDate}
                   onChange={this.handleDateChange}
@@ -102,8 +102,13 @@ class AddBillDialog extends Component {
               </FormGroup>
           </ControlGroup>
 
+          <Divider />
+
           {/* Splits */}
           <SplitBillForm />
+          <Divider />
+          <SplitBillForm />
+          
         </div>
 
         <div className={Classes.DIALOG_FOOTER}>

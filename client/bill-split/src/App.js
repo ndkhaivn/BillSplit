@@ -7,7 +7,7 @@ import store from "./redux/store";
 import { Provider } from "react-redux";
 
 axios.defaults.baseURL =
-  'https://asia-east2-billsplit-3de9c.cloudfunctions.net/api';
+  'http://localhost:5000/billsplit-3de9c/asia-east2/api';
 
 function App() {
   return (

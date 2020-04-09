@@ -55,6 +55,7 @@ class TenantSelect extends Component {
             onQueryChange={this.handleQueryChange}
           >
             <InputGroup
+              fill={false}
               placeholder="Select Tenant..."
               value={this.state.selectedTenant}
               leftIcon="caret-down"

@@ -202,7 +202,7 @@ body {
 }
 
 .flex-one {
-    flex: 1 1 auto
+    flex: 1 1 0
 }
 
 .full-width {
