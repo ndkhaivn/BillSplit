@@ -12,24 +12,35 @@ import {
 } from "@blueprintjs/core";
 import { DateRangeInput, DateInput } from "@blueprintjs/datetime";
 import { connect } from "react-redux";
-import { toggleAddBillDialog } from "../redux/actions";
+import { toggleAddBillDialog, addBill } from "../redux/actions";
 import moment from "moment";
 import config from "../config";
 import SplitBillForm from "./SplitBillForm";
 
 class AddBillDialog extends Component {
   state = {
-    startDate: null,
-    endDate: null,
+    period: {
+      fromDate: null,
+      toDate: null,
+    },
     amount: 0.0,
     paymentDate: null,
+    splits: [{
+      tenantId: null,
+      sharedAmount: 0.0,
+      days: 0
+    }]
   };
 
   handleRangeChange = (selectedRange) => {
-    this.setState({
-      ...(selectedRange[0] && { startDate: selectedRange[0] }),
-      ...(selectedRange[1] && { endDate: selectedRange[1] }),
-    });
+    this.setState((state) => ({
+      ...state,
+      period: {
+        ...state.period,
+        ...(selectedRange[0] && { fromDate: selectedRange[0] }),
+        ...(selectedRange[1] && { toDate: selectedRange[1] }),
+      }
+    }));
   };
 
   handleToggleDialog = () => {
@@ -48,9 +59,97 @@ class AddBillDialog extends Component {
     });
   };
 
-  handleSubmit = () => {};
+  handleAddSplit = () => {
+    this.setState((state) => ({
+      ...state,
+      splits: [
+        ...state.splits,
+        {
+          tenantId: null,
+          sharedAmount: 0.0,
+          days: 0
+        }
+      ]
+    }));
+  }  
+
+  standardizeBill = (bill) => ({
+    ...bill,
+    paymentDate: moment(bill.paymentDate).format(config.date_format),
+    period: {
+      fromDate: moment(bill.period.fromDate).format(config.date_format),
+      toDate: moment(bill.period.toDate).format(config.date_format),
+    }
+  })
+
+  handleSubmitBill = () => {
+    this.props.addBill(this.standardizeBill({
+      ...this.state,
+      billTypeId: this.props.addBillDialog.billTypeId,
+    }));
+  };
 
   render() {
+
+    const splitsMarkup = this.state.splits.map((split, index) => 
+      <SplitBillForm 
+        handleAmountChange={(sharedAmount) => {
+          this.setState((state) => {
+            const newState = {
+              ...state,
+              splits: [
+                ...state.splits,
+              ]
+            }
+            newState.splits[index].sharedAmount = sharedAmount;
+            return newState;
+          });
+        }}
+
+        handleDurationChange={(days) => {
+          this.setState((state) => {
+            const newState = {
+              ...state,
+              splits: [
+                ...state.splits,
+              ]
+            }
+            newState.splits[index].days = days;
+            return newState;
+          });
+        }}
+
+        handleTenantChange={(tenantId) => {
+          this.setState((state) => {
+            const newState = {
+              ...state,
+              splits: [
+                ...state.splits,
+              ]
+            }
+            newState.splits[index].tenantId = tenantId;
+            return newState;
+          });
+        }}
+
+        handleDeleteSplit={() => {
+          this.setState((state) => {
+            const newState = {
+              ...state,
+              splits: [
+                ...state.splits,
+              ]
+            }
+            newState.splits.splice(index, 1);
+            return newState;
+          })
+        }}
+
+        {...this.state.splits[index]}
+
+      />
+    );
+
     return (
       <Dialog
         icon="series-add"
@@ -71,7 +170,7 @@ class AddBillDialog extends Component {
               formatDate={(date) => moment(date).format("DD/MM/YYYY")}
               onChange={this.handleRangeChange}
               parseDate={(str) => moment(str, config.date_format).toDate()}
-              value={[this.state.startDate, this.state.endDate]}
+              value={[this.state.period.fromDate, this.state.period.toDate]}
             />
           </FormGroup>
 
@@ -104,10 +203,16 @@ class AddBillDialog extends Component {
 
           <Divider />
 
-          {/* Splits */}
-          <SplitBillForm />
+          {splitsMarkup}
+          
+
+          <Button
+            icon="plus"
+            onClick={this.handleAddSplit}
+          > Add Split </Button>
+
           <Divider />
-          <SplitBillForm />
+          
           
         </div>
 
@@ -115,7 +220,7 @@ class AddBillDialog extends Component {
           <div className={Classes.DIALOG_FOOTER_ACTIONS}>
             <Button onClick={this.handleToggleDialog}>Cancel</Button>
 
-            <Button onClick={this.handleSubmit} intent={Intent.PRIMARY}>
+            <Button onClick={this.handleSubmitBill} intent={Intent.PRIMARY}>
               Submit
             </Button>
           </div>
@@ -129,4 +234,7 @@ const mapStateToProps = (state) => ({
   addBillDialog: state.addBillDialog,
 });
 
-export default connect(mapStateToProps, { toggleAddBillDialog })(AddBillDialog);
+export default connect(mapStateToProps, {
+  toggleAddBillDialog, 
+  addBill
+})(AddBillDialog);

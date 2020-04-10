@@ -4,3 +4,4 @@ export const SET_BILL_TYPES = 'SET_BILL_TYPES';
 export const ADD_BILL_TYPE = 'ADD_BILL_TYPE';
 export const TOGGLE_ADD_BILL_DIALOG = 'TOGGLE_ADD_BILL_DIALOG';
 export const SET_CURRENT_BILL_TYPE = 'SET_CURRENT_BILL_TYPE';
+export const ADD_BILL = "ADD_BILL";

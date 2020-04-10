@@ -4,7 +4,8 @@ import {
   ADD_TENANT,
   ADD_BILL_TYPE,
   TOGGLE_ADD_BILL_DIALOG,
-  SET_CURRENT_BILL_TYPE
+  SET_CURRENT_BILL_TYPE,
+  ADD_BILL
 } from "../actionTypes";
 
 import axios from "axios";
@@ -64,9 +65,23 @@ export const addBillType = (billType) => (dispatch) => {
         payload: billType
       });
     })
-    .catch((error => {
+    .catch(error => {
       console.log(error);
-    }));
+    });
+}
+
+export const addBill = (bill) => (dispatch) => {
+  axios.post("/bills", bill)
+    .then(() => {
+      dispatch({
+        type:ADD_BILL,
+        payload: bill
+      });
+    })
+    .catch(error => {
+      console.log(error);
+    });
+  
 }
 
 export const toggleAddBillDialog = () => (dispatch) => {
