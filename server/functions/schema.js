@@ -27,7 +27,7 @@ bill = {
         fromDate: "01/01/2019",
         toDate: "31/03/2019"
     },
-    split: [
+    splits: [
         {
             tenantId: "RLtsdnjNl2tY01oOsz8D",
             days: 14, // 14 days stayed

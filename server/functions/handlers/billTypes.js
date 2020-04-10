@@ -28,7 +28,7 @@ exports.getAllBillTypes = (request, response) => {
               amount: doc.data().amount,
               paymentDate: doc.data().paymentDate,
               period: doc.data().period,
-              split: doc.data().split,
+              splits: doc.data().splits,
             });
           });
 

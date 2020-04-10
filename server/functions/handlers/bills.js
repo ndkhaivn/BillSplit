@@ -10,11 +10,11 @@ const sanitizeBillDetails = (data) => {
         amount: Number(data.amount),
         paymentDate: data.paymentDate,
         period: data.period,
-        split: data.split.map((split) => {
+        splits: data.splits.map((splits) => {
             return {
-                tenantId: split.tenantId,
-                days: parseInt(split.days),
-                sharedAmount: Number(split.sharedAmount)
+                tenantId: splits.tenantId,
+                days: parseInt(splits.days),
+                sharedAmount: Number(splits.sharedAmount)
             }
         }),
     };
@@ -45,11 +45,11 @@ exports.validate = (method) => {
                     }
                     return true;
                 }),
-                check('split.*.sharedAmount', 'Not a valid amount').isDecimal()
+                check('splits.*.sharedAmount', 'Not a valid amount').isDecimal()
                     .custom(amount => {
                         return Number(amount) > 0
                     }),
-                check('split.*.days').isNumeric().withMessage('Not a valid number'),
+                check('splits.*.days').isNumeric().withMessage('Not a valid number'),
             ]
         }
     }
@@ -68,7 +68,7 @@ exports.getAllBills = (request, response) => {
                     amount: doc.data().amount,
                     paymentDate: doc.data().paymentDate,
                     period: doc.data().period,
-                    split: doc.data().split,
+                    splits: doc.data().splits,
                 });
             });
             return response.json(bills);
