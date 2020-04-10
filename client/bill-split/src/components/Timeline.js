@@ -3,6 +3,7 @@ import ReactApexChart from "react-apexcharts"
 import {connect} from "react-redux";
 import moment from "moment";
 import config from "../config";
+import { fromDateFormat } from "../utilitiy"
 import { DateRangeInput } from "@blueprintjs/datetime";
 
 class Timeline extends Component {
@@ -38,8 +39,8 @@ class Timeline extends Component {
       data = data.concat(billType.bills.map(bill => ({
         x: billType.title,
         y: [
-          moment.utc(bill.period.fromDate, config.date_format).toDate().getTime(),
-          moment.utc(bill.period.toDate, config.date_format).toDate().getTime(),
+          bill.period.fromDate.getTime(),
+          bill.period.toDate.getTime(),
         ]
       })));
     }
@@ -48,8 +49,8 @@ class Timeline extends Component {
       data = data.concat(tenant.stays.map(stay => ({
         x: tenant.tenantName,
         y: [
-          moment.utc(stay.fromDate, config.date_format).toDate().getTime(),
-          moment.utc(stay.toDate, config.date_format).toDate().getTime(),
+          stay.fromDate.getTime(),
+          stay.toDate.getTime(),
         ],
         fillColor: config.default_tenant_color,
       })));
@@ -83,9 +84,9 @@ class Timeline extends Component {
       <div>
 
         <DateRangeInput
-          formatDate={date => moment(date).format("DD/MM/YYYY")}
+          formatDate={date => moment(date).format(config.date_format)}
           onChange={this.handleRangeChange}
-          parseDate={str => moment(str, config.date_format).toDate()}
+          parseDate={fromDateFormat}
           value={[this.state.startDate, this.state.endDate]}
         />
         <ReactApexChart options={options} series={series} type="rangeBar" heigth={350}/>

@@ -73,8 +73,6 @@ const reducers = function (state = initialState, action) {
         }
       };
 
-      console.log("bill type index: ", index);
-
       newState.billTypes[index].bills = newState.billTypes[index].bills.concat(bill);
       return newState;
 

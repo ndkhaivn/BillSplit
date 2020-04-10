@@ -2,6 +2,7 @@ import { Collapse, Icon, Button, Overlay } from "@blueprintjs/core";
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { toggleAddBillDialog, setCurrentBillType } from "../redux/actions"
+import { toDateFormat } from "../utilitiy";
 
 class BillType extends Component {
   state = {
@@ -23,7 +24,7 @@ class BillType extends Component {
 
     let billsMarkup = bills.map((bill) => (
       <li key={bill.billId}>
-        {`${bill.period.fromDate} - ${bill.period.toDate}`}
+        {`${toDateFormat(bill.period.fromDate)} - ${toDateFormat(bill.period.toDate)}`}
 
         <div className="overlay-edit-child">
           <Button icon="edit" outlined="true"></Button>
