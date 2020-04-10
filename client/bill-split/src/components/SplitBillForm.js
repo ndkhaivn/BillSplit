@@ -9,7 +9,10 @@ class SplitBillForm extends Component {
       <div>
 
         <ControlGroup fill={true}>
-          <TenantSelect setTenantId={this.props.handleTenantChange}/>
+          <TenantSelect 
+            onTenantChange={this.props.handleTenantChange}
+            tenantName = {this.props.tenantName}
+          />
           {/* Duration */}
           <FormGroup label="Stayed Duration">
             <NumericInput

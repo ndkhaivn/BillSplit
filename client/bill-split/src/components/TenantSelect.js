@@ -5,8 +5,7 @@ import { connect } from "react-redux";
 
 class TenantSelect extends Component {
   state = {
-    query: "",
-    selectedTenantName: "",
+    query: ""
   };
 
   handleQueryChange = (queryString) => {
@@ -38,10 +37,7 @@ class TenantSelect extends Component {
   };
 
   handleItemSelect = (item, index) => {
-    this.setState({
-      selectedTenantName: item.tenantName,
-    });
-    this.props.setTenantId(item.tenantId);
+    this.props.onTenantChange(item.tenantId, item.tenantName);
   };
 
   render() {
@@ -60,7 +56,7 @@ class TenantSelect extends Component {
             <InputGroup
               fill={false}
               placeholder="Select Tenant..."
-              value={this.state.selectedTenantName}
+              value={this.props.tenantName}
               leftIcon="caret-down"
             />
           </Select>
