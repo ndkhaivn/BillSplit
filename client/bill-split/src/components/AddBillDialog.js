@@ -88,7 +88,7 @@ class AddBillDialog extends Component {
   // Iterate over the stayed periods of tenants
   // Find out which tenants shared the bill (and how many days)
   // Then calculate the amount
-  handleAutoSplit = () => {
+  handleAuto = () => {
     const period = this.state.period;
     for (let tenant of this.props.tenants) {
 
@@ -118,8 +118,27 @@ class AddBillDialog extends Component {
           }])
         }));
       }
-
     }
+  }
+
+  // Split the bill amount across all tenants
+  handleSplit = () => {
+    const amount = this.state.amount;
+    let totalDays = 0;
+    let splits = [...this.state.splits];
+
+    for (let split of splits) {
+      totalDays += split.days;
+    }
+
+    for (let split of splits) {
+      split.sharedAmount = (amount * (split.days / totalDays)).toFixed(2);
+    }
+
+    this.setState({
+      splits
+    });
+
   }
 
   handleSubmitBill = () => {
@@ -251,7 +270,7 @@ class AddBillDialog extends Component {
           <Button
             icon="plus"
             onClick={this.handleAddSplit}
-          > Add Split </Button>
+          > Add </Button>
 
           <Divider />
           
@@ -262,7 +281,14 @@ class AddBillDialog extends Component {
           <div className={Classes.DIALOG_FOOTER_ACTIONS}>
 
             <Button 
-              onClick={this.handleAutoSplit}
+              onClick={this.handleAuto}
+              intent={Intent.SUCCESS}
+            >
+              Auto
+            </Button>
+
+            <Button 
+              onClick={this.handleSplit}
               intent={Intent.SUCCESS}
             >
               Split

@@ -29,7 +29,7 @@ class SplitBillForm extends Component {
             <NumericInput
               fill={true}
               inline={true}
-              value={this.props.amount}
+              value={this.props.sharedAmount}
               leftIcon="dollar"
               onValueChange={this.props.handleAmountChange}
               buttonPosition="none"
