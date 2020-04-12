@@ -1,17 +1,22 @@
-import React, { Component } from "react"
-import TenantSelect from "./TenantSelect"
-import { FormGroup, NumericInput, ControlGroup, Tag, Intent, Button } from "@blueprintjs/core"
+import React, { Component } from "react";
+import TenantSelect from "./TenantSelect";
+import {
+  FormGroup,
+  NumericInput,
+  ControlGroup,
+  Tag,
+  Intent,
+  Button,
+} from "@blueprintjs/core";
 
 class SplitBillForm extends Component {
-
   render() {
     return (
       <div>
-
         <ControlGroup fill={true}>
-          <TenantSelect 
+          <TenantSelect
             onTenantChange={this.props.handleTenantChange}
-            tenantName = {this.props.tenantName}
+            tenantName={this.props.tenantName}
           />
           {/* Duration */}
           <FormGroup label="Stayed Duration">
@@ -35,18 +40,15 @@ class SplitBillForm extends Component {
               buttonPosition="none"
             />
           </FormGroup>
-          <Button 
+          <Button
             icon="cross"
             minimal={true}
             onClick={this.props.handleDeleteSplit}
           />
         </ControlGroup>
-
-
-
       </div>
-    )
+    );
   }
 }
 
-export default SplitBillForm
+export default SplitBillForm;

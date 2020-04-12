@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 
 class TenantSelect extends Component {
   state = {
-    query: ""
+    query: "",
   };
 
   handleQueryChange = (queryString) => {
@@ -42,25 +42,25 @@ class TenantSelect extends Component {
 
   render() {
     return (
-        <Label>
-          Tenant
-          <Select
-            id="select-tenant"
-            items={this.filterTenant(this.props.tenants, this.state.query)}
-            itemRenderer={this.renderSelect}
-            onItemSelect={this.handleItemSelect}
-            filterable={true}
-            query={this.state.query}
-            onQueryChange={this.handleQueryChange}
-          >
-            <InputGroup
-              fill={false}
-              placeholder="Select Tenant..."
-              value={this.props.tenantName}
-              leftIcon="caret-down"
-            />
-          </Select>
-        </Label>
+      <Label>
+        Tenant
+        <Select
+          id="select-tenant"
+          items={this.filterTenant(this.props.tenants, this.state.query)}
+          itemRenderer={this.renderSelect}
+          onItemSelect={this.handleItemSelect}
+          filterable={true}
+          query={this.state.query}
+          onQueryChange={this.handleQueryChange}
+        >
+          <InputGroup
+            fill={false}
+            placeholder="Select Tenant..."
+            value={this.props.tenantName}
+            leftIcon="caret-down"
+          />
+        </Select>
+      </Label>
     );
   }
 }

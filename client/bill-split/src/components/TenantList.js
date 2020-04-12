@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { getAllTenants } from "../redux/actions";
+import { getAllTenants } from "../redux/actions/tenants";
 import { Intent, Spinner, Button, Colors } from "@blueprintjs/core";
 
 class TenantList extends Component {
@@ -10,6 +10,7 @@ class TenantList extends Component {
 
   render() {
     const tenants = this.props.tenants;
+    console.log("Tenants: ", tenants);
 
     let tenantsMarkup =
       tenants.length === 0 ? (

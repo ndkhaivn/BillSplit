@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { getAllBillTypes } from "../redux/actions";
+import { getAllBillTypes } from "../redux/actions/billTypes";
 import { Intent, Spinner } from "@blueprintjs/core";
 import BillType from "./BillType";
 import AddBillDialog from "./AddBillDialog";
@@ -18,7 +18,7 @@ class BillList extends Component {
         <Spinner intent={Intent.PRIMARY} />
       ) : (
         billTypes.map((billType, index) => (
-          <BillType key={billType.billTypeId} billTypeIndex={index}/>
+          <BillType key={billType.billTypeId} billTypeIndex={index} />
         ))
       );
 
@@ -26,7 +26,7 @@ class BillList extends Component {
       <div>
         <AddBillDialog></AddBillDialog>
         <ul className="nav">{billTypesMarkup}</ul>
-      </div> 
+      </div>
     );
   }
 }

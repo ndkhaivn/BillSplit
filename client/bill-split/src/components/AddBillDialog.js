@@ -8,15 +8,15 @@ import {
   NumericInput,
   Intent,
   ControlGroup,
-  Divider
+  Divider,
 } from "@blueprintjs/core";
 import { DateRangeInput, DateInput } from "@blueprintjs/datetime";
 import { connect } from "react-redux";
-import { toggleAddBillDialog, addBill } from "../redux/actions";
+import { toggleAddBillDialog, addBill } from "../redux/actions/billTypes";
 import moment from "moment";
 import config from "../config";
 import SplitBillForm from "./SplitBillForm";
-import { toDateFormat, fromDateFormat, minDate, maxDate } from "../utilitiy"
+import { toDateFormat, fromDateFormat, minDate, maxDate } from "../utilitiy";
 
 class AddBillDialog extends Component {
   state = {
@@ -26,14 +26,13 @@ class AddBillDialog extends Component {
     },
     amount: 0.0,
     paymentDate: null,
-    splits: []
+    splits: [],
   };
 
   componentDidMount() {
     console.log("AddBillDialog Mounted");
   }
 
-  
   handleRangeChange = (selectedRange) => {
     this.setState((state) => ({
       ...state,
@@ -41,7 +40,7 @@ class AddBillDialog extends Component {
         ...state.period,
         ...(selectedRange[0] && { fromDate: selectedRange[0] }),
         ...(selectedRange[1] && { toDate: selectedRange[1] }),
-      }
+      },
     }));
   };
 
@@ -51,9 +50,9 @@ class AddBillDialog extends Component {
 
   handleOpeningDialog = () => {
     this.setState({
-      splits: []
+      splits: [],
     });
-  }
+  };
 
   handleAmountChange = (valueAsNumber) => {
     this.setState({
@@ -76,13 +75,11 @@ class AddBillDialog extends Component {
           tenantId: null,
           tenantName: "",
           sharedAmount: 0.0,
-          days: 0
-        }
-      ]
+          days: 0,
+        },
+      ],
     }));
-  }  
-
-
+  };
 
   // IMPORTANT: SPLIT LOGIC HERE
   // Iterate over the stayed periods of tenants
@@ -91,15 +88,13 @@ class AddBillDialog extends Component {
   handleAuto = () => {
     const period = this.state.period;
     for (let tenant of this.props.tenants) {
-
       let stayedDuration = 0; // days
 
       for (let stay of tenant.stays) {
-
         let maxFrom = moment(maxDate(period.fromDate, stay.fromDate));
         let minTo = moment(minDate(period.toDate, stay.toDate));
 
-        let diff = minTo.diff(maxFrom, 'days') + 1;
+        let diff = minTo.diff(maxFrom, "days") + 1;
 
         if (diff > 0) {
           stayedDuration += diff;
@@ -109,17 +104,19 @@ class AddBillDialog extends Component {
       if (stayedDuration > 0) {
         console.log(tenant);
 
-        this.setState(state => ({
-          splits: state.splits.concat([{
-            tenantId: tenant.tenantId,
-            tenantName: tenant.tenantName,
-            sharedAmount: 0.0,
-            days: stayedDuration
-          }])
+        this.setState((state) => ({
+          splits: state.splits.concat([
+            {
+              tenantId: tenant.tenantId,
+              tenantName: tenant.tenantName,
+              sharedAmount: 0.0,
+              days: stayedDuration,
+            },
+          ]),
         }));
       }
     }
-  }
+  };
 
   // Split the bill amount across all tenants
   handleSplit = () => {
@@ -136,10 +133,9 @@ class AddBillDialog extends Component {
     }
 
     this.setState({
-      splits
+      splits,
     });
-
-  }
+  };
 
   handleSubmitBill = () => {
     this.props.addBill({
@@ -149,66 +145,52 @@ class AddBillDialog extends Component {
   };
 
   render() {
-
-    const splitsMarkup = this.state.splits.map((split, index) => 
-      <SplitBillForm 
+    const splitsMarkup = this.state.splits.map((split, index) => (
+      <SplitBillForm
         handleAmountChange={(sharedAmount) => {
           this.setState((state) => {
             const newState = {
               ...state,
-              splits: [
-                ...state.splits,
-              ]
-            }
+              splits: [...state.splits],
+            };
             newState.splits[index].sharedAmount = sharedAmount;
             return newState;
           });
         }}
-
         handleDurationChange={(days) => {
           this.setState((state) => {
             const newState = {
               ...state,
-              splits: [
-                ...state.splits,
-              ]
-            }
+              splits: [...state.splits],
+            };
             newState.splits[index].days = days;
             return newState;
           });
         }}
-
         handleTenantChange={(tenantId, tenantName) => {
           this.setState((state) => {
             const newState = {
               ...state,
-              splits: [
-                ...state.splits,
-              ]
-            }
+              splits: [...state.splits],
+            };
             newState.splits[index].tenantId = tenantId;
             newState.splits[index].tenantName = tenantName;
             return newState;
           });
         }}
-
         handleDeleteSplit={() => {
           this.setState((state) => {
             const newState = {
               ...state,
-              splits: [
-                ...state.splits,
-              ]
-            }
+              splits: [...state.splits],
+            };
             newState.splits.splice(index, 1);
             return newState;
-          })
+          });
         }}
-
         {...this.state.splits[index]}
-
       />
-    );
+    ));
 
     return (
       <Dialog
@@ -225,9 +207,15 @@ class AddBillDialog extends Component {
           <FormGroup label="Billing period" labelFor="period-input" fill={true}>
             <DateRangeInput
               id="period-input"
-              startInputProps={{className: "flex-one", placeholder: config.date_format}}
-              endInputProps={{className: "flex-one", placeholder: config.date_format}}
-              popoverProps={{targetClassName: "full-width"}}
+              startInputProps={{
+                className: "flex-one",
+                placeholder: config.date_format,
+              }}
+              endInputProps={{
+                className: "flex-one",
+                placeholder: config.date_format,
+              }}
+              popoverProps={{ targetClassName: "full-width" }}
               formatDate={toDateFormat}
               onChange={this.handleRangeChange}
               parseDate={fromDateFormat}
@@ -236,61 +224,51 @@ class AddBillDialog extends Component {
           </FormGroup>
 
           <ControlGroup fill={true}>
-              {/* Amount Input */}
-              <FormGroup label="Amount" labelFor="amount-input">
-                <NumericInput
-                  id="amount-input"
-                  fill={true}
-                  value={this.state.amount}
-                  onValueChange={this.handleAmountChange}
-                  leftIcon="dollar"
-                  buttonPosition="none"
-                />
-              </FormGroup>
+            {/* Amount Input */}
+            <FormGroup label="Amount" labelFor="amount-input">
+              <NumericInput
+                id="amount-input"
+                fill={true}
+                value={this.state.amount}
+                onValueChange={this.handleAmountChange}
+                leftIcon="dollar"
+                buttonPosition="none"
+              />
+            </FormGroup>
 
-              {/* Payment Date Input */}
-              <FormGroup label="Payment Date" labelFor="payment-date-input">
-                <DateInput
-                  placeholder={config.date_format}
-                  id="payment-date-input"
-                  fill={true}
-                  formatDate={(date) => moment(date).format("DD/MM/YYYY")}
-                  value={this.state.paymentDate}
-                  onChange={this.handleDateChange}
-                  parseDate={(str) => moment(str, config.date_format).toDate()}
-                />
-              </FormGroup>
+            {/* Payment Date Input */}
+            <FormGroup label="Payment Date" labelFor="payment-date-input">
+              <DateInput
+                placeholder={config.date_format}
+                id="payment-date-input"
+                fill={true}
+                formatDate={(date) => moment(date).format("DD/MM/YYYY")}
+                value={this.state.paymentDate}
+                onChange={this.handleDateChange}
+                parseDate={(str) => moment(str, config.date_format).toDate()}
+              />
+            </FormGroup>
           </ControlGroup>
 
           <Divider />
 
           {splitsMarkup}
-          
 
-          <Button
-            icon="plus"
-            onClick={this.handleAddSplit}
-          > Add </Button>
+          <Button icon="plus" onClick={this.handleAddSplit}>
+            {" "}
+            Add{" "}
+          </Button>
 
           <Divider />
-          
-          
         </div>
 
         <div className={Classes.DIALOG_FOOTER}>
           <div className={Classes.DIALOG_FOOTER_ACTIONS}>
-
-            <Button 
-              onClick={this.handleAuto}
-              intent={Intent.SUCCESS}
-            >
+            <Button onClick={this.handleAuto} intent={Intent.SUCCESS}>
               Auto
             </Button>
 
-            <Button 
-              onClick={this.handleSplit}
-              intent={Intent.SUCCESS}
-            >
+            <Button onClick={this.handleSplit} intent={Intent.SUCCESS}>
               Split
             </Button>
 
@@ -308,10 +286,10 @@ class AddBillDialog extends Component {
 
 const mapStateToProps = (state) => ({
   addBillDialog: state.addBillDialog,
-  tenants: state.tenants
+  tenants: state.tenants,
 });
 
 export default connect(mapStateToProps, {
-  toggleAddBillDialog, 
-  addBill
+  toggleAddBillDialog,
+  addBill,
 })(AddBillDialog);

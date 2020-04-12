@@ -11,7 +11,8 @@ import {
   Position,
   InputGroup,
 } from "@blueprintjs/core";
-import { addTenant, addBillType } from "../redux/actions";
+import { addTenant } from "../redux/actions/tenants";
+import { addBillType } from "../redux/actions/billTypes";
 import { connect } from "react-redux";
 
 class Sidebar extends Component {

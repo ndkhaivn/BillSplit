@@ -1,7 +1,5 @@
 import {
   SET_BILL_TYPES,
-  SET_TENANTS,
-  ADD_TENANT,
   ADD_BILL_TYPE,
   TOGGLE_ADD_BILL_DIALOG,
   SET_CURRENT_BILL_TYPE,
@@ -11,47 +9,6 @@ import {
 } from "../actionTypes";
 import axios from "axios";
 import { fromDateFormat, toDateFormat } from "../../utilitiy";
-
-export const getAllTenants = () => (dispatch) => {
-  axios.get('/tenants')
-    .then(res => {
-      // Convert date string to js Date
-      for (let tenant of res.data) {
-        tenant.stays = tenant.stays.map(stay => ({
-          fromDate: fromDateFormat(stay.fromDate),
-          toDate: fromDateFormat(stay.toDate)
-        }));
-      }
-
-      dispatch({
-        type: SET_TENANTS,
-        payload: res.data
-      })
-    })
-    .catch(error => {
-      dispatch({
-        type: SET_TENANTS,
-        payload: []
-      });
-      console.log(error);
-    })
-};
-
-export const addTenant = (tenant) => (dispatch) => {
-  axios.post("/tenants", tenant)
-    .then((res) => {
-      dispatch({
-        type: ADD_TENANT,
-        payload: {
-          ...tenant,
-          tenantId: res.data.tenantId
-        }
-      });
-    })
-    .catch((error => {
-      console.log(error);
-    }));
-}
 
 export const getAllBillTypes = () => (dispatch) => {
   axios.get('/bill-types')
@@ -99,6 +56,19 @@ export const addBillType = (billType) => (dispatch) => {
     });
 }
 
+export const deleteBillType = (billTypeId) => (dispatch) => {
+  axios.delete(`/bill-type/${billTypeId}`)
+    .then(() => {
+      dispatch({
+        type: DELETE_BILL_TYPE,
+        billTypeId
+      });
+    })
+    .catch(error => {
+      console.log(error);
+    });
+}
+
 export const addBill = (bill) => (dispatch) => {
 
   const newBill = {
@@ -112,6 +82,11 @@ export const addBill = (bill) => (dispatch) => {
 
   axios.post("/bills", newBill)
     .then((res) => {
+
+      dispatch({
+        type: TOGGLE_ADD_BILL_DIALOG
+      });
+
       dispatch({
         type: ADD_BILL,
         payload: {
@@ -126,6 +101,7 @@ export const addBill = (bill) => (dispatch) => {
 }
 
 export const deleteBill = (bill) => (dispatch) => {
+  
   axios.delete(`/bill/${bill.billId}`)
     .then(() => {
       dispatch({
@@ -150,17 +126,4 @@ export const setCurrentBillType = (billType) => (dispatch) => {
     type: SET_CURRENT_BILL_TYPE,
     payload: billType
   });
-}
-
-export const deleteBillType = (billTypeId) => (dispatch) => {
-  axios.delete(`/bill-type/${billTypeId}`)
-    .then(() => {
-      dispatch({
-        type: DELETE_BILL_TYPE,
-        billTypeId
-      });
-    })
-    .catch(error => {
-      console.log(error);
-    });
 }
