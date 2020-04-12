@@ -1,20 +1,13 @@
 import {
   SET_TENANTS,
   ADD_TENANT,
+  UPDATE_TENANT
 } from "../actionTypes";
 import axios from "axios";
-import { fromDateFormat } from "../../utilitiy";
 
 export const getAllTenants = () => (dispatch) => {
   axios.get('/tenants')
     .then(res => {
-      // Convert date string to js Date
-      for (let tenant of res.data) {
-        tenant.stays = tenant.stays.map(stay => ({
-          fromDate: fromDateFormat(stay.fromDate),
-          toDate: fromDateFormat(stay.toDate)
-        }));
-      }
 
       dispatch({
         type: SET_TENANTS,
@@ -22,10 +15,10 @@ export const getAllTenants = () => (dispatch) => {
       })
     })
     .catch(error => {
-      // dispatch({
-      //   type: SET_TENANTS,
-      //   payload: []
-      // });
+      dispatch({
+        type: SET_TENANTS,
+        payload: []
+      });
       console.log(error);
     })
 };
@@ -44,4 +37,22 @@ export const addTenant = (tenant) => (dispatch) => {
     .catch((error => {
       console.log(error);
     }));
+}
+
+export const deleteStay = (tenant, stayToDelete) => (dispatch) => {
+  const updatedTenant = {
+    ...tenant,
+    stays: tenant.stays.filter(stay => stay != stayToDelete)
+  };
+
+  axios.post(`/tenant/${tenant.tenantId}`, updatedTenant)
+    .then(() => {
+      dispatch({
+        type: UPDATE_TENANT,
+        payload: updatedTenant,
+        tenantId: tenant.tenantId
+      });
+    })
+    .catch(error => console.log(error));
+
 }

@@ -8,23 +8,11 @@ import {
   DELETE_BILL_TYPE
 } from "../actionTypes";
 import axios from "axios";
-import { fromDateFormat, toDateFormat } from "../../utilitiy";
+import { toDateFormat } from "../../utilitiy";
 
 export const getAllBillTypes = () => (dispatch) => {
   axios.get('/bill-types')
     .then(res => {
-
-      // Convert date string to js Date
-      for (let billType of res.data) {
-        billType.bills = billType.bills.map(bill => ({
-          ...bill,
-          paymentDate: fromDateFormat(bill.paymentDate),
-          period: {
-            fromDate: fromDateFormat(bill.period.fromDate),
-            toDate: fromDateFormat(bill.period.toDate)
-          }
-        }));
-      }
 
       dispatch({
         type: SET_BILL_TYPES,
@@ -71,16 +59,7 @@ export const deleteBillType = (billTypeId) => (dispatch) => {
 
 export const addBill = (bill) => (dispatch) => {
 
-  const newBill = {
-    ...bill,
-    paymentDate: toDateFormat(bill.paymenDate),
-    period: {
-      fromDate: toDateFormat(bill.period.fromDate),
-      toDate: toDateFormat(bill.period.toDate)
-    }
-  }
-
-  axios.post("/bills", newBill)
+  axios.post("/bills", bill)
     .then((res) => {
 
       dispatch({

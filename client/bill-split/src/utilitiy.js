@@ -1,6 +1,10 @@
 import moment from "moment";
 import config from "./config";
 
+export const isDateFormat = (string) => {
+  return moment(string, config.date_format, true).isValid();
+}
+
 export const fromDateFormat = (dateString) => {
   return moment.utc(dateString, config.date_format).toDate();
 }
