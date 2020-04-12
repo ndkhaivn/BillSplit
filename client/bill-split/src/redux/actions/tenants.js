@@ -1,7 +1,8 @@
 import {
   SET_TENANTS,
   ADD_TENANT,
-  UPDATE_TENANT
+  UPDATE_TENANT,
+  DELETE_TENANT
 } from "../actionTypes";
 import axios from "axios";
 
@@ -39,6 +40,17 @@ export const addTenant = (tenant) => (dispatch) => {
     }));
 }
 
+export const deleteTenant = (tenantId) => (dispatch) => {
+  axios.delete(`/tenant/${tenantId}`)
+    .then(() => {
+      dispatch({
+        type: DELETE_TENANT,
+        tenantId: tenantId
+      });
+    })
+    .catch(error => console.log(error));
+}
+
 export const addStay = (tenant, stay) => (dispatch) => {
   const updatedTenant = {
     ...tenant,
@@ -70,4 +82,3 @@ export const deleteStay = (tenant, stayToDelete) => (dispatch) => {
     })
     .catch(error => console.log(error));
 }
-

@@ -1,6 +1,7 @@
 export const SET_TENANTS = 'SET_TENANTS';
 export const ADD_TENANT = 'ADD_TENANT';
 export const UPDATE_TENANT = 'UPDATE_TENANT';
+export const DELETE_TENANT = 'DELETE_TENANT';
 
 
 export const SET_BILL_TYPES = 'SET_BILL_TYPES';

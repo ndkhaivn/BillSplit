@@ -15,7 +15,7 @@ import {
 import { DateRangeInput } from "@blueprintjs/datetime";
 import config from "../config";
 import { toDateFormat, fromDateFormat } from "../utilitiy";
-import { addStay, deleteStay } from "../redux/actions/tenants";
+import { addStay, deleteStay, deleteTenant } from "../redux/actions/tenants";
 
 class TenantItem extends Component {
   state = {
@@ -130,7 +130,7 @@ class TenantItem extends Component {
             icon="cross"
             outlined="true"
             onClick={() => {
-              // this.props.deleteBillType(billType.billTypeId);
+              this.props.deleteTenant(tenant.tenantId);
             }}
             intent={Intent.DANGER}
           />
@@ -147,4 +147,5 @@ const mapStateToProps = (state) => ({
 export default connect(mapStateToProps, {
   addStay,
   deleteStay,
+  deleteTenant
 })(TenantItem);
