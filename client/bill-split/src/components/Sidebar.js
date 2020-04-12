@@ -65,7 +65,6 @@ class Sidebar extends Component {
           <div className="sidebar-wrapper">
             <div>
               <Popover
-                isOpen={this.state.showAddTenantPopup}
                 interactionKind={PopoverInteractionKind.CLICK}
                 popoverClassName="bp3-popover-content-sizing"
                 position={Position.LEFT}
@@ -103,7 +102,6 @@ class Sidebar extends Component {
 
             <div>
               <Popover
-                // isOpen={this.state.showAddBillTypePopup}
                 interactionKind={PopoverInteractionKind.CLICK}
                 popoverClassName="bp3-popover-content-sizing"
                 position={Position.LEFT}

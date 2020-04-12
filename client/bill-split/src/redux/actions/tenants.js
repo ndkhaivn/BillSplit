@@ -39,6 +39,22 @@ export const addTenant = (tenant) => (dispatch) => {
     }));
 }
 
+export const addStay = (tenant, stay) => (dispatch) => {
+  const updatedTenant = {
+    ...tenant,
+    stays: tenant.stays.concat(stay)
+  };
+
+  axios.post(`/tenant/${tenant.tenantId}`, updatedTenant)
+  .then(() => {
+    dispatch({
+      type: UPDATE_TENANT,
+      payload: updatedTenant,
+    });
+  })
+  .catch(error => console.log(error));
+}
+
 export const deleteStay = (tenant, stayToDelete) => (dispatch) => {
   const updatedTenant = {
     ...tenant,
@@ -50,9 +66,8 @@ export const deleteStay = (tenant, stayToDelete) => (dispatch) => {
       dispatch({
         type: UPDATE_TENANT,
         payload: updatedTenant,
-        tenantId: tenant.tenantId
       });
     })
     .catch(error => console.log(error));
-
 }
+

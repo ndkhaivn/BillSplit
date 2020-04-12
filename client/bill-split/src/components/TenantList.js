@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { getAllTenants } from "../redux/actions/tenants";
 import { Intent, Spinner, Button, Colors } from "@blueprintjs/core";
+import TenantItem from "./TenantItem";
 
 class TenantList extends Component {
   componentDidMount() {
@@ -16,16 +17,8 @@ class TenantList extends Component {
       tenants.length === 0 ? (
         <Spinner intent={Intent.PRIMARY} />
       ) : (
-        tenants.map((tenant) => (
-          <li key={tenant.tenantId} className="sidebar-item">
-            {tenant.tenantName}
-
-            <div className="overlay-edit">
-              <Button icon="edit" outlined="true"></Button>
-
-              <Button icon="plus" outlined="true"></Button>
-            </div>
-          </li>
+        tenants.map((tenant, index) => (
+          <TenantItem key={tenant.tenantId} tenantIndex={index} />
         ))
       );
 

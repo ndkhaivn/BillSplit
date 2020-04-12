@@ -29,13 +29,8 @@ class AddBillDialog extends Component {
     splits: [],
   };
 
-  componentDidMount() {
-    console.log("AddBillDialog Mounted");
-  }
-
   handleRangeChange = (selectedRange) => {
     this.setState((state) => ({
-      ...state,
       period: {
         ...state.period,
         ...(selectedRange[0] && { fromDate: selectedRange[0] }),
@@ -102,7 +97,6 @@ class AddBillDialog extends Component {
       }
 
       if (stayedDuration > 0) {
-        console.log(tenant);
 
         this.setState((state) => ({
           splits: state.splits.concat([
@@ -138,6 +132,7 @@ class AddBillDialog extends Component {
   };
 
   handleSubmitBill = () => {
+
     this.props.addBill({
       ...this.state,
       billTypeId: this.props.addBillDialog.billTypeId,
@@ -242,10 +237,10 @@ class AddBillDialog extends Component {
                 placeholder={config.date_format}
                 id="payment-date-input"
                 fill={true}
-                formatDate={(date) => moment(date).format("DD/MM/YYYY")}
+                formatDate={toDateFormat}
                 value={this.state.paymentDate}
                 onChange={this.handleDateChange}
-                parseDate={(str) => moment(str, config.date_format).toDate()}
+                parseDate={fromDateFormat}
               />
             </FormGroup>
           </ControlGroup>
@@ -255,8 +250,7 @@ class AddBillDialog extends Component {
           {splitsMarkup}
 
           <Button icon="plus" onClick={this.handleAddSplit}>
-            {" "}
-            Add{" "}
+            Add
           </Button>
 
           <Divider />
