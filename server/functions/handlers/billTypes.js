@@ -34,10 +34,11 @@ exports.getAllBillTypes = (request, response) => {
 
       for (let bill of bills) {
         let index = billTypes.findIndex(billType => billType.billTypeId === bill.billTypeId);
-        billTypes[index].bills.push(bill);
+        if (index > -1) {
+          billTypes[index].bills.push(bill);
+        }
       }
 
-      console.log(billTypes);
       return response.json(billTypes);
     })
     .catch((err) => {
