@@ -9,7 +9,7 @@ import {
 } from "../redux/actions/billTypes";
 import { toDateFormat } from "../utilitiy";
 
-class BillType extends Component {
+class BillTypeItem extends Component {
   state = {
     isOpen: false,
   };
@@ -90,4 +90,4 @@ export default connect(mapStateToProps, {
   setCurrentBillType,
   deleteBill,
   deleteBillType,
-})(BillType);
+})(BillTypeItem);

@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import React, { Component } from "react";
 import logo from "../logo.svg";
 import TenantList from "./TenantList";
-import BillList from "./BillList";
+import BillTypeList from "./BillTypeList";
 import {
   Button,
   Intent,
@@ -136,7 +136,7 @@ class Sidebar extends Component {
               </Popover>
 
               <span className="simple-text">Bills</span>
-              <BillList />
+              <BillTypeList />
             </div>
           </div>
         </div>
