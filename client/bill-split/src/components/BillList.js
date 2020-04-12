@@ -17,8 +17,8 @@ class BillList extends Component {
       billTypes.length === 0 ? (
         <Spinner intent={Intent.PRIMARY} />
       ) : (
-        billTypes.map((billType) => (
-          <BillType key={billType.billTypeId} billType={billType} />
+        billTypes.map((billType, index) => (
+          <BillType key={billType.billTypeId} billTypeIndex={index}/>
         ))
       );
 

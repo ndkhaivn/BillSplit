@@ -1,7 +1,7 @@
-import { Collapse, Icon, Button, Overlay } from "@blueprintjs/core";
+import { Collapse, Icon, Button, Intent } from "@blueprintjs/core";
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { toggleAddBillDialog, setCurrentBillType } from "../redux/actions"
+import { toggleAddBillDialog, setCurrentBillType, deleteBill, deleteBillType } from "../redux/actions"
 import { toDateFormat } from "../utilitiy";
 
 class BillType extends Component {
@@ -15,19 +15,23 @@ class BillType extends Component {
 
   handleAddBill = () => {
     this.props.toggleAddBillDialog();
-    this.props.setCurrentBillType(this.props.billType);
+    this.props.setCurrentBillType(this.props.billTypes[this.props.billTypeIndex]);
   }
 
   render() {
-    const billType = this.props.billType;
+    const billType = this.props.billTypes[this.props.billTypeIndex];
     const bills = billType.bills;
 
-    let billsMarkup = bills.map((bill) => (
+    let billsMarkup = bills.map((bill, index) => (
       <li key={bill.billId}>
         {`${toDateFormat(bill.period.fromDate)} - ${toDateFormat(bill.period.toDate)}`}
 
         <div className="overlay-edit-child">
-          <Button icon="edit" outlined="true"></Button>
+          <Button icon="edit" outlined="true" />
+          <Button icon="cross" outlined="true" 
+            intent={Intent.DANGER}
+            onClick={() => { this.props.deleteBill(bill) }} 
+          />
         </div>
       </li>
     ));
@@ -46,13 +50,21 @@ class BillType extends Component {
         <div className="overlay-edit">
           <Button icon="edit" outlined="true"></Button>
           <Button icon="plus" outlined="true" onClick={this.handleAddBill}></Button>
+          <Button icon="cross" outlined="true" 
+            onClick={() => {this.props.deleteBillType(billType.billTypeId)}} 
+            intent={Intent.DANGER}
+          />
         </div>
       </li>
     );
   }
 }
 
+const mapStateToProps = (state) => ({
+  billTypes: state.billTypes
+});
+
 export default connect(
-  null,
-  { toggleAddBillDialog, setCurrentBillType }
+  mapStateToProps,
+  { toggleAddBillDialog, setCurrentBillType, deleteBill, deleteBillType }
 )(BillType);

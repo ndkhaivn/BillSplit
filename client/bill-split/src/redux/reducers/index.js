@@ -6,6 +6,8 @@ import {
   TOGGLE_ADD_BILL_DIALOG,
   SET_CURRENT_BILL_TYPE,
   ADD_BILL,
+  DELETE_BILL,
+  DELETE_BILL_TYPE
 } from "../actionTypes";
 
 const initialState = {
@@ -22,6 +24,7 @@ const initialState = {
 };
 
 const reducers = function (state = initialState, action) {
+  let newState;
   switch (action.type) {
     case ADD_TENANT:
       return {
@@ -60,10 +63,15 @@ const reducers = function (state = initialState, action) {
           title: action.payload.title,
         },
       };
+    case DELETE_BILL_TYPE:
+      return {
+        ...state,
+        billTypes: state.billTypes.filter((billType) => billType.billTypeId !== action.billTypeId)
+      }
     case ADD_BILL:
       const bill = action.payload;
       const index = state.billTypes.map(billType => billType.billTypeId).indexOf(bill.billTypeId);
-      const newState = {
+      newState = {
         ...state,
         billTypes: [
           ...state.billTypes
@@ -72,10 +80,19 @@ const reducers = function (state = initialState, action) {
           isOpen: false
         }
       };
-
       newState.billTypes[index].bills = newState.billTypes[index].bills.concat(bill);
       return newState;
-
+    case DELETE_BILL:
+      const billTypeIndex = state.billTypes.map(billType => billType.billTypeId).indexOf(action.billTypeId);
+      const billIndex = state.billTypes[billTypeIndex].bills.map(bill => bill.billId).indexOf(action.billId);
+      newState = {
+        ...state,
+        billTypes: [
+          ...state.billTypes
+        ]
+      };
+      newState.billTypes[billTypeIndex].bills.splice(billIndex, 1);
+      return newState;
     default:
       return state;
   }

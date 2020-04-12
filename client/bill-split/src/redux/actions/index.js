@@ -5,7 +5,9 @@ import {
   ADD_BILL_TYPE,
   TOGGLE_ADD_BILL_DIALOG,
   SET_CURRENT_BILL_TYPE,
-  ADD_BILL
+  ADD_BILL,
+  DELETE_BILL,
+  DELETE_BILL_TYPE
 } from "../actionTypes";
 import axios from "axios";
 import { fromDateFormat, toDateFormat } from "../../utilitiy";
@@ -13,7 +15,6 @@ import { fromDateFormat, toDateFormat } from "../../utilitiy";
 export const getAllTenants = () => (dispatch) => {
   axios.get('/tenants')
     .then(res => {
-
       // Convert date string to js Date
       for (let tenant of res.data) {
         tenant.stays = tenant.stays.map(stay => ({
@@ -38,10 +39,13 @@ export const getAllTenants = () => (dispatch) => {
 
 export const addTenant = (tenant) => (dispatch) => {
   axios.post("/tenants", tenant)
-    .then(() => {
+    .then((res) => {
       dispatch({
         type: ADD_TENANT,
-        payload: tenant
+        payload: {
+          ...tenant,
+          tenantId: res.data.tenantId
+        }
       });
     })
     .catch((error => {
@@ -81,10 +85,13 @@ export const getAllBillTypes = () => (dispatch) => {
 
 export const addBillType = (billType) => (dispatch) => {
   axios.post("/bill-types", billType)
-    .then(() => {
+    .then((res) => {
       dispatch({
         type: ADD_BILL_TYPE,
-        payload: billType
+        payload: {
+          ...billType,
+          billTypeId: res.data.billTypeId
+        }
       });
     })
     .catch(error => {
@@ -94,7 +101,7 @@ export const addBillType = (billType) => (dispatch) => {
 
 export const addBill = (bill) => (dispatch) => {
 
-  bill = {
+  const newBill = {
     ...bill,
     paymentDate: toDateFormat(bill.paymenDate),
     period: {
@@ -103,17 +110,33 @@ export const addBill = (bill) => (dispatch) => {
     }
   }
 
-  axios.post("/bills", bill)
-    .then(() => {
+  axios.post("/bills", newBill)
+    .then((res) => {
       dispatch({
         type: ADD_BILL,
-        payload: bill
+        payload: {
+          ...bill,
+          billId: res.data.billId
+        }
       });
     })
     .catch(error => {
       console.log(error);
     });
-  
+}
+
+export const deleteBill = (bill) => (dispatch) => {
+  axios.delete(`/bill/${bill.billId}`)
+    .then(() => {
+      dispatch({
+        type: DELETE_BILL,
+        billId: bill.billId,
+        billTypeId: bill.billTypeId
+      });
+    })
+    .catch(error => {
+      console.log(error);
+    })
 }
 
 export const toggleAddBillDialog = () => (dispatch) => {
@@ -127,4 +150,17 @@ export const setCurrentBillType = (billType) => (dispatch) => {
     type: SET_CURRENT_BILL_TYPE,
     payload: billType
   });
+}
+
+export const deleteBillType = (billTypeId) => (dispatch) => {
+  axios.delete(`/bill-type/${billTypeId}`)
+    .then(() => {
+      dispatch({
+        type: DELETE_BILL_TYPE,
+        billTypeId
+      });
+    })
+    .catch(error => {
+      console.log(error);
+    });
 }
