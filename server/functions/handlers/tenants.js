@@ -72,7 +72,7 @@ exports.addTenant = (request, response) => {
     db.collection('tenants')
         .add(newTenant)
         .then((doc) => {
-            return response.json({ message: `document ${doc.id} created successfully` });
+            return response.json({ tenantId: doc.id });
         })
         .catch((err) => {
             response.status(500).json({ error: `could not add tenant` });

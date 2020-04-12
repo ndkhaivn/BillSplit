@@ -94,7 +94,7 @@ exports.addBill = (request, response) => {
     db.collection('bills')
         .add(newBill)
         .then((doc) => {
-            return response.json({ message: `document ${doc.id} created successfully` });
+            return response.json({ billId: doc.id });
         })
         .catch((err) => {
             response.status(500).json({ error: `could not add bill` });

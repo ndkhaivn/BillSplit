@@ -53,7 +53,7 @@ exports.addBillType = (request, response) => {
   db.collection('billTypes')
     .add(newBillType)
     .then((doc) => {
-      return response.json({ message: `document ${doc.id} created successfully` });
+      return response.json({ billTypeId: doc.id });
     })
     .catch((err) => {
       response.status(500).json({ error: `could not add bill type` });
