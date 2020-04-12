@@ -6,11 +6,20 @@ export const isDateFormat = (string) => {
 }
 
 export const fromDateFormat = (dateString) => {
+  if (!dateString) {
+    return null;
+  }
   return moment.utc(dateString, config.date_format).toDate();
 }
 
 export const toDateFormat = (date) => {
-  return moment(date).format(config.date_format);
+  return moment(date).utcOffset(0).format(config.date_format);
+}
+
+export const localToUTC = (date) => {
+  // Get date string
+  var dateString = moment(date, config.date_format).format(config.date_format);
+  return fromDateFormat(dateString);
 }
 
 export const minDate = (date1, date2) => {

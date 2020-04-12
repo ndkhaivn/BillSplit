@@ -24,7 +24,7 @@ exports.validate = (method) => {
                         if (!moment(stay.fromDate, config.date_format, true).isValid()) {
                             throw new Error(`Date format not valid. Expect ${config.date_format}`);
                         }
-                        if (!moment(stay.toDate, config.date_format, true).isValid()) {
+                        if (stay.toDate && !moment(stay.toDate, config.date_format, true).isValid()) {
                             throw new Error(`Date format not valid. Expect ${config.date_format}`);
                         }
                     }

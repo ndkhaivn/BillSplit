@@ -16,7 +16,7 @@ import { toggleAddBillDialog, addBill } from "../redux/actions/billTypes";
 import moment from "moment";
 import config from "../config";
 import SplitBillForm from "./SplitBillForm";
-import { toDateFormat, fromDateFormat, minDate, maxDate } from "../utilitiy";
+import { toDateFormat, fromDateFormat, localToUTC, minDate, maxDate } from "../utilitiy";
 
 class AddBillDialog extends Component {
   state = {
@@ -30,6 +30,8 @@ class AddBillDialog extends Component {
   };
 
   handleRangeChange = (selectedRange) => {
+    selectedRange[0] = localToUTC(selectedRange[0]);
+    selectedRange[1] = localToUTC(selectedRange[1]);
     this.setState((state) => ({
       period: {
         ...state.period,

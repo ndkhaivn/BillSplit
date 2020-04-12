@@ -14,7 +14,7 @@ import {
 } from "@blueprintjs/core";
 import { DateRangeInput } from "@blueprintjs/datetime";
 import config from "../config";
-import { toDateFormat, fromDateFormat } from "../utilitiy";
+import { toDateFormat, fromDateFormat, localToUTC } from "../utilitiy";
 import { addStay, deleteStay, deleteTenant } from "../redux/actions/tenants";
 
 class TenantItem extends Component {
@@ -36,11 +36,15 @@ class TenantItem extends Component {
   };
 
   handleRangeChange = (selectedRange) => {
+
+    selectedRange[0] = localToUTC(selectedRange[0]);
+    selectedRange[1] = localToUTC(selectedRange[1]);
+
     this.setState((state) => ({
       period: {
         ...state.period,
         ...(selectedRange[0] && { fromDate: selectedRange[0] }),
-        ...(selectedRange[1] && { toDate: selectedRange[1] }),
+        toDate: selectedRange[1]
       },
     }));
   };
