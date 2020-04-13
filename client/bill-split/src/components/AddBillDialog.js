@@ -9,6 +9,7 @@ import {
   Intent,
   ControlGroup,
   Divider,
+  Tag
 } from "@blueprintjs/core";
 import { DateRangeInput, DateInput } from "@blueprintjs/datetime";
 import { connect } from "react-redux";
@@ -27,7 +28,8 @@ class AddBillDialog extends Component {
     amount: 0.0,
     paymentDate: null,
     splits: [],
-  };
+    amountRemaining: 0.0
+  }
 
   handleRangeChange = (selectedRange) => {
     selectedRange[0] = localToUTC(selectedRange[0]);
@@ -54,7 +56,7 @@ class AddBillDialog extends Component {
   handleAmountChange = (valueAsNumber) => {
     this.setState({
       amount: valueAsNumber,
-    });
+    }, () => { this.updateAmountRemaining() });
   };
 
   handleDateChange = (selectedDate) => {
@@ -77,6 +79,17 @@ class AddBillDialog extends Component {
       ],
     }));
   };
+
+
+  updateAmountRemaining = () => {
+    let sum = 0;
+    for (let split of this.state.splits) {
+      sum += split.sharedAmount;
+    }
+    this.setState({
+      amountRemaining: (this.state.amount - sum).toFixed(2)
+    });
+  }
 
   // IMPORTANT: SPLIT LOGIC HERE
   // Iterate over the stayed periods of tenants
@@ -152,7 +165,7 @@ class AddBillDialog extends Component {
             };
             newState.splits[index].sharedAmount = sharedAmount;
             return newState;
-          });
+          }, () => { this.updateAmountRemaining(); });
         }}
         handleDurationChange={(days) => {
           this.setState((state) => {
@@ -230,6 +243,11 @@ class AddBillDialog extends Component {
                 onValueChange={this.handleAmountChange}
                 leftIcon="dollar"
                 buttonPosition="none"
+                rightElement={
+                  <Tag minimal="true" intent={this.state.amountRemaining == 0 ? Intent.SUCCESS : Intent.DANGER}> 
+                    ${this.state.amountRemaining} left
+                  </Tag>
+                }
               />
             </FormGroup>
 

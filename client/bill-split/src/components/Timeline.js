@@ -84,9 +84,6 @@ class Timeline extends Component {
     for (let tenant of this.props.tenants) {
       data = data.concat(
         tenant.stays.map((stay) => {
-          if (!stay.toDate) {
-            stay.toDate = new Date();
-          }
           return {
             x: tenant.tenantName,
             y: [stay.fromDate.getTime(), stay.toDate.getTime()],
@@ -144,7 +141,6 @@ class Timeline extends Component {
           options={options}
           series={series}
           type="rangeBar"
-          heigth={350}
         />
       </div>
     );

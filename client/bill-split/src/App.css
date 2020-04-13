@@ -212,3 +212,7 @@ body {
 .tooltip-card {
     margin: 20px;
 }
+
+.float-right {
+    float: right
+}

@@ -10,6 +10,13 @@ export const getAllTenants = () => (dispatch) => {
   axios.get('/tenants')
     .then(res => {
 
+      for (let tenant of res.data) {
+        tenant.stays = tenant.stays.map(stay => ({
+          fromDate: stay.fromDate,
+          toDate: stay.toDate ? stay.toDate : new Date()
+        }));
+      }
+
       dispatch({
         type: SET_TENANTS,
         payload: res.data
@@ -59,6 +66,12 @@ export const addStay = (tenant, stay) => (dispatch) => {
 
   axios.post(`/tenant/${tenant.tenantId}`, updatedTenant)
   .then(() => {
+
+    updatedTenant.stays = updatedTenant.stays.map(stay => ({
+      fromDate: stay.fromDate,
+      toDate: stay.toDate ? stay.toDate : new Date()
+    }));
+
     dispatch({
       type: UPDATE_TENANT,
       payload: updatedTenant,
