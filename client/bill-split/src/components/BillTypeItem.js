@@ -7,7 +7,7 @@ import {
   deleteBill,
   deleteBillType,
 } from "../redux/actions/billTypes";
-import { toDateFormat } from "../utilitiy";
+import { toDateFormat, shortDateFormat } from "../utilitiy";
 
 class BillTypeItem extends Component {
   state = {
@@ -31,9 +31,7 @@ class BillTypeItem extends Component {
 
     let billsMarkup = bills.map((bill, index) => (
       <li key={bill.billId}>
-        {`${toDateFormat(bill.period.fromDate)} - ${toDateFormat(
-          bill.period.toDate
-        )}`}
+        {`${shortDateFormat(bill.period.fromDate)}-${toDateFormat(bill.period.toDate)} | $${bill.amount}`}
 
         <div className="overlay-edit-child">
           <Button icon="edit" outlined="true" />

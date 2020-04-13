@@ -208,3 +208,7 @@ body {
 .full-width {
     width: 100%
 }
+
+.tooltip-card {
+    margin: 20px;
+}
