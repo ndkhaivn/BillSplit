@@ -7,17 +7,12 @@ import { toDateFormat, fromDateFormat, findTenant, daysDiff } from "../utilitiy"
 import { DateRangeInput } from "@blueprintjs/datetime";
 
 class Timeline extends Component {
-  constructor(props) {
-    super(props);
+  state = {
+    fromDate: moment().subtract(6, "months").toDate(),
+    toDate: moment().toDate(),
+  };
 
-    this.state = {
-      fromDate: moment().subtract(2, "months").toDate(),
-      toDate: moment().toDate(),
-    };
-    this.handleRangeChange = this.handleRangeChange.bind(this);
-  }
-
-  handleRangeChange(selectedRange) {
+  handleRangeChange = (selectedRange) => {
     if (!selectedRange[0] || !selectedRange[1]) {
       return;
     }
@@ -135,6 +130,7 @@ class Timeline extends Component {
 
     return (
       <div>
+        <br/><br/>
         <DateRangeInput
           formatDate={(date) => moment(date).format(config.date_format)}
           onChange={this.handleRangeChange}
