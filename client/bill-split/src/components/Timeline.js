@@ -56,9 +56,13 @@ class Timeline extends Component {
     return (
       `<div class="tooltip-card">
         <h3>
-          ${billTitle}: ${toDateFormat(bill.period.fromDate)} - ${toDateFormat(bill.period.toDate)}
-          <span>(${daysDiff(bill.period.fromDate, bill.period.toDate)} days)</span>
+          ${billTitle} | #${bill.billRef}
         </h3> 
+
+        <div> 
+          ${toDateFormat(bill.period.fromDate)} - ${toDateFormat(bill.period.toDate)} 
+          <span>(${daysDiff(bill.period.fromDate, bill.period.toDate)} days)</span>
+        </div>
         
         <div>Amount: $${bill.amount}</div>
         <div>Payment Date: ${toDateFormat(bill.paymentDate)}</div>

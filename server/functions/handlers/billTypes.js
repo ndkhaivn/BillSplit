@@ -24,6 +24,7 @@ exports.getAllBillTypes = (request, response) => {
           data[1].forEach((doc) => {
             bills.push({
               billId: doc.id,
+              billRef: doc.data().billRef,
               billTypeId: doc.data().billTypeId,
               amount: doc.data().amount,
               paymentDate: doc.data().paymentDate,

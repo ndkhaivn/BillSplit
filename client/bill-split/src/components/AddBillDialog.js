@@ -21,6 +21,7 @@ import { toDateFormat, fromDateFormat, localToUTC, minDate, maxDate } from "../u
 
 class AddBillDialog extends Component {
   state = {
+    billRef: "",
     period: {
       fromDate: null,
       toDate: null,
@@ -87,7 +88,7 @@ class AddBillDialog extends Component {
       sum += split.sharedAmount;
     }
     this.setState({
-      amountRemaining: (this.state.amount - sum).toFixed(2)
+      amountRemaining: Number((this.state.amount - sum).toFixed(2))
     });
   }
 
@@ -138,12 +139,12 @@ class AddBillDialog extends Component {
     }
 
     for (let split of splits) {
-      split.sharedAmount = (amount * (split.days / totalDays)).toFixed(2);
+      split.sharedAmount = totalDays !== 0 ? Number((amount * (split.days / totalDays)).toFixed(2)) : 0;
     }
 
     this.setState({
       splits,
-    });
+    }, () => {this.updateAmountRemaining()});
   };
 
   handleSubmitBill = () => {
@@ -158,6 +159,7 @@ class AddBillDialog extends Component {
     const splitsMarkup = this.state.splits.map((split, index) => (
       <SplitBillForm
         handleAmountChange={(sharedAmount) => {
+          console.log(sharedAmount);
           this.setState((state) => {
             const newState = {
               ...state,
@@ -196,7 +198,7 @@ class AddBillDialog extends Component {
             };
             newState.splits.splice(index, 1);
             return newState;
-          });
+          }, () => {this.updateAmountRemaining()});
         }}
         {...this.state.splits[index]}
       />
@@ -213,6 +215,20 @@ class AddBillDialog extends Component {
         canEscapeKeyClose="true"
       >
         <div className={Classes.DIALOG_BODY}>
+
+          <FormGroup label="Bill Reference" fill={true}>
+            <InputGroup
+              fill={true}
+              value={this.state.billRef}
+              onChange={(event) => {this.setState({
+                billRef: event.target.value
+              })}}
+              placeholder="#"
+            />
+          </FormGroup>
+
+          
+
           {/* Billing Period Input */}
           <FormGroup label="Billing period" labelFor="period-input" fill={true}>
             <DateRangeInput
