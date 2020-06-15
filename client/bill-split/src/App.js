@@ -8,9 +8,7 @@ import { Provider } from "react-redux";
 import { toDateFormat, fromDateFormat, isDateFormat } from "./utilitiy";
 import _ from "lodash";
 
-axios.defaults.baseURL =
-  'http://localhost:5000/billsplit-3de9c/asia-east2/api';
-
+axios.defaults.baseURL = 'https://asia-east2-billsplit-3de9c.cloudfunctions.net/api';
 const DATE_TO_STRING = "DATE_TO_STRING";
 const STRING_TO_DATE = "STRING_TO_DATE";
 
