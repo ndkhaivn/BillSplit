@@ -103,6 +103,17 @@ class Timeline extends Component {
       chart: {
         height: 350,
         type: "rangeBar",
+        events: {
+          dataPointSelection: (event, chartContext, config) => {
+            console.log(event);
+            console.log(chartContext);
+          }
+        },
+        zoom: {
+          enabled: true,
+          type: 'y',  
+          autoScaleYaxis: false, 
+        }
       },
       plotOptions: {
         bar: {
@@ -125,7 +136,12 @@ class Timeline extends Component {
           const data = w.config.series[0].data[dataPointIndex];
           return data.htmlTooltip;
         }
-      }
+      },
+      markers: {
+        size: 1,
+        style: 'hollow',
+      },
+      
     };
 
     return (
